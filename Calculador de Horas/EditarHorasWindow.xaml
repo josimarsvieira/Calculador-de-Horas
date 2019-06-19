@@ -1,0 +1,25 @@
+﻿<Window x:Class="Calculador_de_Horas.EditarHorasWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculador_de_Horas"
+        mc:Ignorable="d"
+        Title="Editar Horas" Height="265.485" Width="319.125" ResizeMode="NoResize">
+    <Grid Margin="0,0,2,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Editar Horas" HorizontalAlignment="Left" Margin="118,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Entrada:" HorizontalAlignment="Left" Margin="27,55,0,0" VerticalAlignment="Top"/>
+        <Label Content="Saída:" HorizontalAlignment="Left" Margin="27,86,0,0" VerticalAlignment="Top"/>
+        <Button Content="Salvar" HorizontalAlignment="Left" Margin="118,206,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" TabIndex="5"/>
+        <ComboBox x:Name="cbHoraEntrada" HorizontalAlignment="Left" Margin="214,59,0,0" VerticalAlignment="Top" Width="41" TabIndex="0"/>
+        <ComboBox x:Name="cbMinutosEntrada" HorizontalAlignment="Left" Margin="255,59,0,0" VerticalAlignment="Top" Width="41" TabIndex="1"/>
+        <ComboBox x:Name="cbHoraSaida" HorizontalAlignment="Left" Margin="214,90,0,0" VerticalAlignment="Top" Width="41" TabIndex="2"/>
+        <ComboBox x:Name="cbMinutosSaida" HorizontalAlignment="Left" Margin="255,90,0,0" VerticalAlignment="Top" Width="41" TabIndex="3"/>
+        <TextBox x:Name="txtBoxJustificativa" HorizontalAlignment="Left" Height="84" Margin="105,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191"/>
+        <Label Content="Justificativa:" HorizontalAlignment="Left" Margin="27,114,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

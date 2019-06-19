@@ -1,0 +1,19 @@
+﻿<Window x:Class="Calculador_de_Horas.ListarFuncionariosWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculador_de_Horas"
+        mc:Ignorable="d"
+        Title="Lista de Funcionários Cadastrados" Height="385" Width="339.617">
+    <Grid Margin="0,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="lbFuncionarios" Margin="10,8,11,57" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+        <Button x:Name="btnSelecionar" Content="Selecionar" Margin="0,0,10,10" Click="BtnSelecionar_Click" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom"/>
+        <Button x:Name="btnEditar" Content="Editar" Margin="0,0,98,10" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom" Click="BtnEditar_Click"/>
+        <Button x:Name="btnNovo" Content="Novo" Margin="0,0,186,10" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom" Click="BtnNovo_Click"/>
+
+    </Grid>
+</Window>
