@@ -12,7 +12,7 @@ namespace Calculador_de_Horas
     public partial class NovoFuncionarioWindow : Window
     {
         /// <summary>
-        /// Janela para adição e edição de funcionarios.
+        /// Janela para adição e edição de funcionarioslklk
         /// </summary>
         public NovoFuncionarioWindow(string registro)
         {
