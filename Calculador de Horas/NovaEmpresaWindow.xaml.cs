@@ -8,7 +8,7 @@ namespace Calculador_de_Horas
 {
 
     /// <summary>
-    /// Lógica interna para NovaEmpresaWindow.xaml
+    /// Lógica interna para NovaEmpresaWindow.xaml..
     /// </summary>
     public partial class NovaEmpresaWindow : Window
     {
