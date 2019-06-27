@@ -29,7 +29,6 @@ namespace Calculador_de_Horas
 
                 try
                 {
-                    funcionario = new List<Funcionario>();
                     funcionario = dbContext.BuscarFuncionario();
                 }
                 catch (Exception ex)

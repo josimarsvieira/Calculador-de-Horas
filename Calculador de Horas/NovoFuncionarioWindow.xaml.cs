@@ -23,12 +23,12 @@ namespace Calculador_de_Horas
             if (registro != "")
             {
                 txtRegistro.IsEnabled = false;
-                PreencherCampos(BuscaFuncionario(registro));
+                PreencherCampos(BuscaFuncionario());
             }
         }
 
 
-        private Funcionario BuscaFuncionario(string registro)
+        private Funcionario BuscaFuncionario()
         {
             using (MyDatabaseContext dbContext = new MyDatabaseContext())
             {
@@ -53,13 +53,13 @@ namespace Calculador_de_Horas
                 txtNome.Text = busca.Nome;
                 txtFuncao.Text = busca.Funcao;
                 cbHoraIncio.Text = busca.HoraIncio.Hours < 10 ? ("0" + busca.HoraIncio.Hours.ToString()) : busca.HoraIncio.Hours.ToString();
-                cbMinutosInicio.Text = busca.HoraIncio.Minutes < 10 ? ("0" + busca.HoraIncio.Minutes.ToString()) : busca.HoraIncio.Minutes.ToString(); ;
-                cbHoraTermino.Text = busca.HoraTermino.Hours < 10 ? ("0" + busca.HoraTermino.Hours.ToString()) : busca.HoraTermino.Hours.ToString(); ;
-                cbMinutosTermino.Text = busca.HoraTermino.Minutes < 10 ? ("0" + busca.HoraTermino.Minutes.ToString()) : busca.HoraTermino.Minutes.ToString(); ;
-                cbHoraAlmocoSaida.Text = busca.HoraAlmocoSaida.Hours < 10 ? ("0" + busca.HoraAlmocoSaida.Hours.ToString()) : busca.HoraAlmocoSaida.Hours.ToString(); ;
-                cbMinutosAlmocoSaida.Text = busca.HoraAlmocoSaida.Minutes < 10 ? ("0" + busca.HoraAlmocoSaida.Minutes.ToString()) : busca.HoraAlmocoSaida.Minutes.ToString(); ;
-                cbHoraAlmocoRetorno.Text = busca.HoraAlmocoRetorno.Hours < 10 ? ("0" + busca.HoraAlmocoRetorno.Hours.ToString()) : busca.HoraAlmocoRetorno.Hours.ToString(); ;
-                cbMinutosAlmocoRetorno.Text = busca.HoraAlmocoRetorno.Minutes < 10 ? ("0" + busca.HoraAlmocoRetorno.Minutes.ToString()) : busca.HoraAlmocoRetorno.Minutes.ToString(); ;
+                cbMinutosInicio.Text = busca.HoraIncio.Minutes < 10 ? ("0" + busca.HoraIncio.Minutes.ToString()) : busca.HoraIncio.Minutes.ToString();
+                cbHoraTermino.Text = busca.HoraTermino.Hours < 10 ? ("0" + busca.HoraTermino.Hours.ToString()) : busca.HoraTermino.Hours.ToString();
+                cbMinutosTermino.Text = busca.HoraTermino.Minutes < 10 ? ("0" + busca.HoraTermino.Minutes.ToString()) : busca.HoraTermino.Minutes.ToString();
+                cbHoraAlmocoSaida.Text = busca.HoraAlmocoSaida.Hours < 10 ? ("0" + busca.HoraAlmocoSaida.Hours.ToString()) : busca.HoraAlmocoSaida.Hours.ToString();
+                cbMinutosAlmocoSaida.Text = busca.HoraAlmocoSaida.Minutes < 10 ? ("0" + busca.HoraAlmocoSaida.Minutes.ToString()) : busca.HoraAlmocoSaida.Minutes.ToString();
+                cbHoraAlmocoRetorno.Text = busca.HoraAlmocoRetorno.Hours < 10 ? ("0" + busca.HoraAlmocoRetorno.Hours.ToString()) : busca.HoraAlmocoRetorno.Hours.ToString();
+                cbMinutosAlmocoRetorno.Text = busca.HoraAlmocoRetorno.Minutes < 10 ? ("0" + busca.HoraAlmocoRetorno.Minutes.ToString()) : busca.HoraAlmocoRetorno.Minutes.ToString();
                 btnSalvar.Content = "Atualizar";
             }
         }

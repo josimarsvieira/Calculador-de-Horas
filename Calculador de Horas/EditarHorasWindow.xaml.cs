@@ -11,7 +11,7 @@ namespace Calculador_de_Horas
     /// </summary>
     public partial class EditarHorasWindow : Window
     {
-        public static DateTime dataAlterar;
+        private DateTime dataAlterar;
         /// <summary>
         /// Janela de edição do último registro de hora adicionado
         /// </summary>

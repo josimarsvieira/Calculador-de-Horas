@@ -45,9 +45,6 @@ namespace Calculador_de_Horas
 
                 IEnumerable horas;
                 List<DateTime> datasComRegistros = new List<DateTime>();
-                DateTime dataBusca = new DateTime(DPdata.SelectedDate.Value.Year, DPdata.SelectedDate.Value.Month, TranferenciaDados.Empresa.DiaFechamento);
-
-                //                horas = dbContext.BuscaCartaoPonto(func, dataBusca);
 
                 horas = dbContext.BuscaCartaoPonto(func, new DateTime(DPdata.SelectedDate.Value.Year, DPdata.SelectedDate.Value.Month, TranferenciaDados.Empresa.DiaFechamento - 1),
                     new DateTime(DPdata.SelectedDate.Value.Month == 1 ? DPdata.SelectedDate.Value.Year - 1 : DPdata.SelectedDate.Value.Year, DPdata.SelectedDate.Value.Month == 1 ? 12 : DPdata.SelectedDate.Value.Month - 1, TranferenciaDados.Empresa.DiaFechamento));
@@ -57,7 +54,6 @@ namespace Calculador_de_Horas
                 foreach (HorasFuncionario h in horas)
                 {
                     datasComRegistros.Add(h.DataRegistro);
-                    string hora = h.ToString();
                     txtBlockDias.Text += h.DataRegistro.Day < 10 ? $"0{h.DataRegistro.Day}\n" : $"{h.DataRegistro.Day}\n";
                     txtBlockEntrada.Text += $"{h.Entrada.ToString()} \n";
                     txtBlockSaida.Text += $"{h.Saida.ToString()} \n";
@@ -96,8 +92,6 @@ namespace Calculador_de_Horas
                         totalBancoHoras = totalBancoHoras.Add(horaTrabalho);
                     }
                 }
-
-                DateTime dataSelecionada = DPdata.SelectedDate.Value;
 
                 lblHoraFolga.Content = $"{totalHorasFolga.Days} Dia(s) e {totalBancoHoras.Hours} Horas";
                 if (totalHorasFolga.Days >= 0)
@@ -186,7 +180,7 @@ namespace Calculador_de_Horas
                             JanelaPrincipal.Title = $"Calculador de Horas - {windows.Empresa.RazaoSocial}";
                             TranferenciaDados.Empresa = windows.Empresa;
                         }
-                    } while (decisao == true);
+                    } while (decisao);
                 }
             }
         }
