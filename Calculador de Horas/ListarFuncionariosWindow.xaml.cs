@@ -71,7 +71,7 @@ namespace Calculador_de_Horas
         /// <param name="e"></param>
         private void BtnNovo_Click(object sender, RoutedEventArgs e)
         {
-            NovoFuncionarioWindow windows = new NovoFuncionarioWindow("");
+            GestaoDeFuncionarioWindow windows = new GestaoDeFuncionarioWindow("");
             windows.ShowDialog();
             PreencheListBox();
         }
@@ -84,7 +84,7 @@ namespace Calculador_de_Horas
         private void BtnEditar_Click(object sender, RoutedEventArgs e)
         {
             string selecionado = lbFuncionarios.SelectedItem.ToString().Remove(4);
-            NovoFuncionarioWindow windows = new NovoFuncionarioWindow(selecionado);
+            GestaoDeFuncionarioWindow windows = new GestaoDeFuncionarioWindow(selecionado);
             windows.ShowDialog();
             PreencheListBox();
 

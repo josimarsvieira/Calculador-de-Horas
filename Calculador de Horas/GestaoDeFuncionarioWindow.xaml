@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculador_de_Horas"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Calculador_de_Horas.NovoFuncionarioWindow"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Calculador_de_Horas.GestaoDeFuncionarioWindow"
         mc:Ignorable="d"
         Title="Modificar Cadastro" Height="335" Width="270" ResizeMode="NoResize">
     <Grid Margin="0,0,2,1">

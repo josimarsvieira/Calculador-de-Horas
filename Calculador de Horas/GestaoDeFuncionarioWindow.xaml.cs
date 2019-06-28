@@ -7,14 +7,14 @@ using System.Windows;
 namespace Calculador_de_Horas
 {
     /// <summary>
-    /// Interaction logic for NovoFuncionarioWindow.xaml
+    /// Interaction logic for GestaoDeFuncionarioWindow.xaml
     /// </summary>
-    public partial class NovoFuncionarioWindow : Window
+    public partial class GestaoDeFuncionarioWindow : Window
     {
         /// <summary>
         /// Janela para adição e edição de funcionarios
         /// </summary>
-        public NovoFuncionarioWindow(string registro)
+        public GestaoDeFuncionarioWindow(string registro)
         {
             InitializeComponent();
             txtRegistro.Text = registro;

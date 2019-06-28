@@ -248,7 +248,7 @@ namespace Calculador_de_Horas
                 }
                 else
                 {
-                    NovoFuncionarioWindow windows = new NovoFuncionarioWindow(txtRegistro.Text);
+                    GestaoDeFuncionarioWindow windows = new GestaoDeFuncionarioWindow(txtRegistro.Text);
                     windows.ShowDialog();
                     txtRegistro.Text = TranferenciaDados.Registro.ToString();
                     btnBancoHoras.IsEnabled = false;
@@ -398,13 +398,7 @@ namespace Calculador_de_Horas
             }
             catch (FormatException)
             {
-                MessageBox.Show($"Hora informada está em formato incorreto", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Funcionario não especificado", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                throw new Exception();
             }
         }
 
@@ -425,7 +419,7 @@ namespace Calculador_de_Horas
         /// <param name="e"></param>
         private void btnDetalhar_Click(object sender, RoutedEventArgs e)
         {
-            NovoFuncionarioWindow windows = new NovoFuncionarioWindow(txtRegistro.Text);
+            GestaoDeFuncionarioWindow windows = new GestaoDeFuncionarioWindow(txtRegistro.Text);
             windows.ShowDialog();
             BuscarFuncionario();
 
