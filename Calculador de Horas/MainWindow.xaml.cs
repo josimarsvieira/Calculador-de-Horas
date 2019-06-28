@@ -3,6 +3,7 @@ using Calculador_de_Horas.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
@@ -51,16 +52,26 @@ namespace Calculador_de_Horas
 
                 IEnumerable bancoDeHoras = dbContext.BuscaBancoDeHoras(func);
 
+                StringBuilder dias = new StringBuilder();
+                StringBuilder entradas = new StringBuilder();
+                StringBuilder saidas = new StringBuilder();
+                StringBuilder extras = new StringBuilder();
+
                 foreach (HorasFuncionario h in horas)
                 {
+                    dias.AppendLine(h.DataRegistro.Day < 10 ? $"0{h.DataRegistro.Day}" : $"{h.DataRegistro.Day}");
                     datasComRegistros.Add(h.DataRegistro);
-                    txtBlockDias.Text += h.DataRegistro.Day < 10 ? $"0{h.DataRegistro.Day}\n" : $"{h.DataRegistro.Day}\n";
-                    txtBlockEntrada.Text += $"{h.Entrada.ToString()} \n";
-                    txtBlockSaida.Text += $"{h.Saida.ToString()} \n";
-                    txtBlockExtras.Text += $"{h.Extras.ToString()} \n";
+                    entradas.AppendLine($"{h.Entrada.ToString()}");
+                    saidas.AppendLine($"{h.Saida.ToString()}");
+                    extras.AppendLine($"{h.Extras.ToString()}");
                     totalHoras += h.Extras;
                     TranferenciaDados.UltimaHoraAdicionada = h;
                 }
+
+                txtBlockDias.Text = dias.ToString();
+                txtBlockEntrada.Text = entradas.ToString();
+                txtBlockSaida.Text = saidas.ToString();
+                txtBlockExtras.Text = extras.ToString();
 
                 foreach (BancoDeHoras h in bancoDeHoras)
                 {

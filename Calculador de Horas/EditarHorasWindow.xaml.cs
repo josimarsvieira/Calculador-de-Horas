@@ -86,7 +86,7 @@ namespace Calculador_de_Horas
             Close();
         }
 
-        private HorasFuncionario RegistroParaAlterar()
+        private void RegistroParaAlterar()
         {
             using (MyDatabaseContext dbContext = new MyDatabaseContext())
             {
@@ -100,8 +100,6 @@ namespace Calculador_de_Horas
                     cbHoraSaida.SelectedIndex = horasFuncionario.Saida.Hours;
                     cbMinutosSaida.SelectedIndex = horasFuncionario.Saida.Minutes;
                 }
-
-                return horasFuncionario;
             }
         }
     }

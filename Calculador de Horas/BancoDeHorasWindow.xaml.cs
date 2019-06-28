@@ -50,8 +50,7 @@ namespace Calculador_de_Horas
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
-                    return;
+                    throw new Exception(ex.Message);
                 }
             }
         }
