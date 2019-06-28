@@ -269,7 +269,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NovoFuncionarioWindow.xaml">
+    <Page Include="GestaoDeFuncionarioWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -283,8 +283,8 @@
     <Compile Include="NovaEmpresaWindow.xaml.cs">
       <DependentUpon>NovaEmpresaWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NovoFuncionarioWindow.xaml.cs">
-      <DependentUpon>NovoFuncionarioWindow.xaml</DependentUpon>
+    <Compile Include="GestaoDeFuncionarioWindow.xaml.cs">
+      <DependentUpon>GestaoDeFuncionarioWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
