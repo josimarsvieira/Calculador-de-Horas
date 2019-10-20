@@ -50,7 +50,7 @@ namespace Calculador_de_Horas
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    new Exception(ex.Message);
                 }
             }
         }

@@ -37,7 +37,7 @@
         <ComboBox x:Name="cbHoraExtras" Margin="5,157,42,0" SelectedIndex="23" Grid.Column="3"  Height="22" VerticalAlignment="Top" TabIndex="4"/>
         <Label Content="Banco de Horas:" Grid.Column="3" HorizontalAlignment="Left" Margin="2,100,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="98"/>
         <Label x:Name="lblBancoHoras" Content="" Grid.Column="4" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="73"/>
-        <Button x:Name="btnBancoHoras" Content="*" Grid.Column="3" HorizontalAlignment="Left" Margin="71,132,0,0" VerticalAlignment="Top" Width="19" FontWeight="Bold" IsEnabled="False" Click="BtnBancoHoras_Click"/>
+        <Button x:Name="btnBancoHoras" Content="Banco" Grid.Column="4" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="BtnBancoHoras_Click"/>
         <TextBlock x:Name="txtBlockDias" HorizontalAlignment="Left" Margin="8,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock x:Name="txtBlockEntrada" Grid.Column="1" HorizontalAlignment="Left" Margin="8,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock x:Name="txtBlockSaida" Grid.Column="2" HorizontalAlignment="Left" Margin="8,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
@@ -46,6 +46,7 @@
         <Label x:Name="lblHoraFolga" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="31,100,0,0" VerticalAlignment="Top" Width="149" Grid.ColumnSpan="2"/>
         <DatePicker x:Name="DPdata" Grid.Column="2" HorizontalAlignment="Left" Margin="58,49,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.529,0.417" Grid.ColumnSpan="2" Width="103" SelectedDate="2019-01-01"/>
         <Button x:Name="btnBuscar" Content="Buscar" Grid.Column="4" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Width="75" Click="BtnBuscar_Click"/>
+        <Button x:Name="btnDeletar" Content="Deletar" HorizontalAlignment="Left" Margin="11,209,0,0" VerticalAlignment="Top" Width="74" Grid.Column="4" Height="20" TabIndex="6" Click="BtnDeletar_Click" IsEnabled="False"/>
 
     </Grid>
 </Window>

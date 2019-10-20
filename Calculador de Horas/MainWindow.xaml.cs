@@ -135,6 +135,8 @@ namespace Calculador_de_Horas
             cbMinutosSaida.ItemsSource = Minutos;
             cbHoraExtras.ItemsSource = HorasE;
             cbMinutosExtras.ItemsSource = Minutos;
+
+            DPdata.SelectedDate = DateTime.Now;
         }
 
         /* ************************** Metodos de manipulação de dados ************************** */
@@ -243,6 +245,7 @@ namespace Calculador_de_Horas
                 {
                     txtNome.Content = funcionario.Nome;
                     btnBancoHoras.IsEnabled = true;
+                    btnDeletar.IsEnabled = true;
                     RefreshList(funcionario);
                     TranferenciaDados.Funcionario = funcionario;
                 }
@@ -252,6 +255,7 @@ namespace Calculador_de_Horas
                     windows.ShowDialog();
                     txtRegistro.Text = TranferenciaDados.Registro.ToString();
                     btnBancoHoras.IsEnabled = false;
+                    btnDeletar.IsEnabled = false;
                 }
             }
 
@@ -288,7 +292,7 @@ namespace Calculador_de_Horas
 
                     if (cbMinutosExtras.SelectedIndex != 0 || cbHoraExtras.SelectedIndex != 23)
                     {
-                        if (MessageBox.Show("Desaja incluir hora extra munualmente?", "Confirmar Inclusão de Horas", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        if (MessageBox.Show("Desaja incluir hora extra manualmente?", "Confirmar Inclusão de Horas", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
                             int hora = int.Parse(cbHoraExtras.SelectionBoxItem.ToString());
                             int minutos = hora < 0 ? -int.Parse(cbMinutosExtras.SelectionBoxItem.ToString()) : int.Parse(cbMinutosExtras.SelectionBoxItem.ToString());
@@ -531,6 +535,44 @@ namespace Calculador_de_Horas
             {
                 cbHoraExtras.IsEnabled = true;
                 cbMinutosExtras.IsEnabled = true;
+            }
+        }
+
+        private void BtnDeletar_Click(object sender, RoutedEventArgs e)
+        {
+            using (MyDatabaseContext dbContext = new MyDatabaseContext())
+            {
+                Funcionario funcionario = dbContext.BuscarFuncionario(TranferenciaDados.Registro);
+                HorasFuncionario horasFuncionario = dbContext.BuscarRegistro(funcionario, DPdata.SelectedDate.Value);
+
+                if (horasFuncionario != null)
+                {
+                    if (horasFuncionario.Extras != (new TimeSpan(0, 0, 0)))
+                    {
+                        BancoDeHoras removerDoBancoDeHoras = new BancoDeHoras(-horasFuncionario.Extras, "Registro deletado", horasFuncionario.DataRegistro);
+                        funcionario.AtualizarBancoHoras(removerDoBancoDeHoras);
+                        dbContext.UpdateBanco(funcionario);
+                    }
+                    else
+                    {
+                        BancoDeHoras JustificativaBancoDeHoras = new BancoDeHoras(new TimeSpan(0, 0, 0), "Registro deletado", horasFuncionario.DataRegistro);
+                        funcionario.AtualizarBancoHoras(JustificativaBancoDeHoras);
+                        dbContext.UpdateBanco(funcionario);
+                    }
+
+                    dbContext.RemoveHora(funcionario, DPdata.SelectedDate.Value);
+                    RefreshList(funcionario);
+
+                    horasFuncionario = dbContext.BuscarRegistro(funcionario, DPdata.SelectedDate.Value);
+                    if (horasFuncionario == null)
+                    {
+                        MessageBox.Show("Registro deletado com sucesso!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Não há registros na data selecionada!");
+                }
             }
         }
     }

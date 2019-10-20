@@ -20,17 +20,17 @@
         <TextBox x:Name="txtNome" Margin="74,74,9,0" TextWrapping="Wrap" AutomationProperties.HelpText="Nome completo" Height="23" VerticalAlignment="Top" TabIndex="1"/>
         <TextBox x:Name="txtFuncao" Height="23" Margin="74,101,9,0" TextWrapping="Wrap" VerticalAlignment="Top" AutomationProperties.HelpText="Função" TabIndex="2"/>
         <Label x:Name="lblRegistro_Copy" Content="Hora Inicio: " HorizontalAlignment="Left" Margin="10,135,0,136" VerticalAlignment="Bottom" Height="26" Width="88"/>
-        <Label x:Name="lblRegistro_Copy1" Content="Hora Termino: " HorizontalAlignment="Left" Margin="10,0,0,110" VerticalAlignment="Bottom" Height="26" Width="88"/>
+        <Label x:Name="lblRegistro_Copy1" Content="Hora Termino: " HorizontalAlignment="Left" Margin="10,0,0,57" VerticalAlignment="Bottom" Height="26" Width="88"/>
         <ComboBox x:Name="cbMinutosInicio" Margin="0,0,10,140" HorizontalAlignment="Right" Width="46" SelectedIndex="0" Height="22" VerticalAlignment="Bottom" TabIndex="4"/>
         <ComboBox x:Name="cbHoraIncio" Margin="0,0,56,140" HorizontalAlignment="Right" Width="46" SelectedIndex="7" Height="22" VerticalAlignment="Bottom" TabIndex="3"/>
-        <ComboBox x:Name="cbMinutosTermino" Margin="0,0,10,112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="33" Height="22" TabIndex="6"/>
-        <ComboBox x:Name="cbHoraTermino" Margin="0,0,56,112" HorizontalAlignment="Right" Width="45" SelectedIndex="17" Height="22" VerticalAlignment="Bottom" TabIndex="5"/>
-        <Label Content="Saida para Almoço:" Margin="10,0,118,83" VerticalAlignment="Bottom" Height="26"/>
-        <ComboBox x:Name="cbMinutosAlmocoSaida" Margin="0,0,10,85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="0" Height="22" TabIndex="8"/>
-        <ComboBox x:Name="cbHoraAlmocoSaida" Margin="0,0,56,85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="45" SelectedIndex="11" Height="22" TabIndex="7"/>
-        <Label Content="Retorno do Almoço:" Margin="10,0,118,56" VerticalAlignment="Bottom" Height="26"/>
-        <ComboBox x:Name="cbMinutosAlmocoRetorno" Margin="0,0,10,58" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="45" Height="22" TabIndex="9"/>
-        <ComboBox x:Name="cbHoraAlmocoRetorno" Margin="0,0,56,58" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="45" SelectedIndex="12" Height="22" TabIndex="8"/>
+        <ComboBox x:Name="cbMinutosTermino" Margin="0,0,10,58" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="33" Height="22" TabIndex="6"/>
+        <ComboBox x:Name="cbHoraTermino" Margin="0,0,56,58" HorizontalAlignment="Right" Width="45" SelectedIndex="17" Height="22" VerticalAlignment="Bottom" TabIndex="5"/>
+        <Label Content="Saida para Almoço:" Margin="10,0,118,110" VerticalAlignment="Bottom" Height="26"/>
+        <ComboBox x:Name="cbMinutosAlmocoSaida" Margin="0,0,10,112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="0" Height="22" TabIndex="8"/>
+        <ComboBox x:Name="cbHoraAlmocoSaida" Margin="0,0,56,112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="45" SelectedIndex="11" Height="22" TabIndex="7"/>
+        <Label Content="Retorno do Almoço:" Margin="10,0,118,84" VerticalAlignment="Bottom" Height="26"/>
+        <ComboBox x:Name="cbMinutosAlmocoRetorno" Margin="0,0,10,85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="45" Height="22" TabIndex="9"/>
+        <ComboBox x:Name="cbHoraAlmocoRetorno" Margin="0,0,56,85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="45" SelectedIndex="12" Height="22" TabIndex="8"/>
 
     </Grid>
 </Window>

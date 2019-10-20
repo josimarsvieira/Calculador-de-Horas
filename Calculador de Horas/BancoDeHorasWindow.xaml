@@ -13,12 +13,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Label Content="HORAS EXTRAS" Margin="100,53,361,0" VerticalAlignment="Top"/>
-        <Label Content="JUSTIFICATIVA" Margin="198,53,270,0" VerticalAlignment="Top"/>
+        <Label Content="HORAS EXTRAS" Margin="100,53,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="93"/>
+        <Label Content="JUSTIFICATIVA" Margin="198,53,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="86"/>
         <Label Content="Registros do Banco de Horas" Margin="122,10,0,0" RenderTransformOrigin="1.075,0.538" Width="175" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button Content="Fechar" Margin="241,0,238,10" Click="Button_Click" Height="28" VerticalAlignment="Bottom"/>
-        <Label Content="DATA" Margin="10,53,506,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="listBoxRegistros" Margin="10,84,10,43"/>
+        <Label Content="DATA" Margin="10,53,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="38"/>
+        <ListBox x:Name="listBoxRegistros" Margin="10,84,0,43" HorizontalAlignment="Left" Width="534"/>
 
     </Grid>
 </Window>

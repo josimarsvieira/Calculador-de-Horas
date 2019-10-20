@@ -192,5 +192,11 @@ namespace Calculador_de_Horas.Database
             HorasFuncionario hora = HorasFuncionarios.Where(x => x.FuncionarioId == funcionario.Id && x.DataRegistro == dataAlterar).SingleOrDefault();
             return hora;
         }
+
+        public void RemoveHora(Funcionario funcionario, DateTime dataRemover)
+        {
+            Remove(funcionario.CartaoPonto.Single(x => x.DataRegistro == dataRemover));
+            SaveChanges();
+        }
     }
 }
