@@ -40,6 +40,8 @@ namespace Calculador_de_Horas
 
             TimeSpan totalHoras = new TimeSpan();
             TimeSpan totalBancoHoras = new TimeSpan();
+            DateTime selecionada = DPdata.SelectedDate.Value;
+            int fechamento = TranferenciaDados.Empresa.DiaFechamento;
 
             using (MyDatabaseContext dbContext = new MyDatabaseContext())
             {
@@ -47,8 +49,16 @@ namespace Calculador_de_Horas
                 IEnumerable horas;
                 List<DateTime> datasComRegistros = new List<DateTime>();
 
-                horas = dbContext.BuscaCartaoPonto(func, new DateTime(DPdata.SelectedDate.Value.Year, DPdata.SelectedDate.Value.Month, TranferenciaDados.Empresa.DiaFechamento - 1),
-                    new DateTime(DPdata.SelectedDate.Value.Month == 1 ? DPdata.SelectedDate.Value.Year - 1 : DPdata.SelectedDate.Value.Year, DPdata.SelectedDate.Value.Month == 1 ? 12 : DPdata.SelectedDate.Value.Month - 1, TranferenciaDados.Empresa.DiaFechamento));
+                horas = dbContext.BuscaCartaoPonto(func, 
+                    new DateTime(
+                        selecionada.Month == 12 && selecionada.Day >= fechamento ? selecionada.Year + 1 : selecionada.Year, 
+                        selecionada.Day >= fechamento ? selecionada.Month == 12 ? 1 : selecionada.Month + 1 : selecionada.Month, 
+                        fechamento -1),
+
+                    new DateTime(
+                        selecionada.Month == 1 ? selecionada.Year - 1 : selecionada.Year,
+                        selecionada.Day >= fechamento ? selecionada.Month : selecionada.Month == 1 ? 12 : selecionada.Month - 1,
+                        fechamento));
 
                 IEnumerable bancoDeHoras = dbContext.BuscaBancoDeHoras(func);
 
@@ -105,7 +115,7 @@ namespace Calculador_de_Horas
                 }
 
                 lblHoraFolga.Content = $"{totalHorasFolga.Days} Dia(s) e {totalBancoHoras.Hours} Horas";
-                if (totalHorasFolga.Days >= 0)
+                if (totalHorasFolga.Days >= 0 && totalHorasFolga.Hours >= 0)
                 {
                     lblHoraFolga.Foreground = Brushes.Black;
                 }
@@ -219,7 +229,6 @@ namespace Calculador_de_Horas
                         return;
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -468,7 +477,7 @@ namespace Calculador_de_Horas
                 cbHoraExtras.SelectedIndex = 23;
                 cbMinutosExtras.SelectedIndex = 0;
             }
-            else if(cbMinutosSaida.SelectedIndex == 0 && cbHoraSaida.SelectedIndex == 0 && cbMinutosEntrada.SelectedIndex == 0)
+            else if (cbMinutosSaida.SelectedIndex == 0 && cbHoraSaida.SelectedIndex == 0 && cbMinutosEntrada.SelectedIndex == 0)
             {
                 cbHoraExtras.IsEnabled = true;
                 cbMinutosExtras.IsEnabled = true;
@@ -489,7 +498,7 @@ namespace Calculador_de_Horas
                 cbHoraExtras.SelectedIndex = 23;
                 cbMinutosExtras.SelectedIndex = 0;
             }
-            else if(cbMinutosSaida.SelectedIndex == 0 && cbHoraSaida.SelectedIndex == 0 && cbHoraEntrada.SelectedIndex == 0)
+            else if (cbMinutosSaida.SelectedIndex == 0 && cbHoraSaida.SelectedIndex == 0 && cbHoraEntrada.SelectedIndex == 0)
             {
                 cbHoraExtras.IsEnabled = true;
                 cbMinutosExtras.IsEnabled = true;
@@ -538,6 +547,11 @@ namespace Calculador_de_Horas
             }
         }
 
+        /// <summary>
+        /// Deleta o registro que tiver a mesma data que a selecionada
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnDeletar_Click(object sender, RoutedEventArgs e)
         {
             using (MyDatabaseContext dbContext = new MyDatabaseContext())
@@ -545,33 +559,36 @@ namespace Calculador_de_Horas
                 Funcionario funcionario = dbContext.BuscarFuncionario(TranferenciaDados.Registro);
                 HorasFuncionario horasFuncionario = dbContext.BuscarRegistro(funcionario, DPdata.SelectedDate.Value);
 
-                if (horasFuncionario != null)
+                if (MessageBox.Show("Deseja realmente deletar?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    if (horasFuncionario.Extras != (new TimeSpan(0, 0, 0)))
+                    if (horasFuncionario != null)
                     {
-                        BancoDeHoras removerDoBancoDeHoras = new BancoDeHoras(-horasFuncionario.Extras, "Registro deletado", horasFuncionario.DataRegistro);
-                        funcionario.AtualizarBancoHoras(removerDoBancoDeHoras);
-                        dbContext.UpdateBanco(funcionario);
+                        if (horasFuncionario.Extras != (new TimeSpan(0, 0, 0)))
+                        {
+                            BancoDeHoras removerDoBancoDeHoras = new BancoDeHoras(-horasFuncionario.Extras, "Registro deletado", horasFuncionario.DataRegistro);
+                            funcionario.AtualizarBancoHoras(removerDoBancoDeHoras);
+                            dbContext.UpdateBanco(funcionario);
+                        }
+                        else
+                        {
+                            BancoDeHoras JustificativaBancoDeHoras = new BancoDeHoras(new TimeSpan(0, 0, 0), "Registro deletado", horasFuncionario.DataRegistro);
+                            funcionario.AtualizarBancoHoras(JustificativaBancoDeHoras);
+                            dbContext.UpdateBanco(funcionario);
+                        }
+
+                        dbContext.RemoveHora(funcionario, DPdata.SelectedDate.Value);
+                        RefreshList(funcionario);
+
+                        horasFuncionario = dbContext.BuscarRegistro(funcionario, DPdata.SelectedDate.Value);
+                        if (horasFuncionario == null)
+                        {
+                            MessageBox.Show("Registro deletado com sucesso!");
+                        }
                     }
                     else
                     {
-                        BancoDeHoras JustificativaBancoDeHoras = new BancoDeHoras(new TimeSpan(0, 0, 0), "Registro deletado", horasFuncionario.DataRegistro);
-                        funcionario.AtualizarBancoHoras(JustificativaBancoDeHoras);
-                        dbContext.UpdateBanco(funcionario);
+                        MessageBox.Show("Não há registros na data selecionada!");
                     }
-
-                    dbContext.RemoveHora(funcionario, DPdata.SelectedDate.Value);
-                    RefreshList(funcionario);
-
-                    horasFuncionario = dbContext.BuscarRegistro(funcionario, DPdata.SelectedDate.Value);
-                    if (horasFuncionario == null)
-                    {
-                        MessageBox.Show("Registro deletado com sucesso!");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Não há registros na data selecionada!");
                 }
             }
         }
