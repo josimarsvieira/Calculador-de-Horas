@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Calculador_de_Horas.Database
 {
@@ -67,16 +68,17 @@ namespace Calculador_de_Horas.Database
         /// </summary>
         /// <param name="numeroRegistro">Numero do registro do funcionario a ser localizado.</param>
         /// <returns>Retorna um objeto do tipo Funcionario.</returns>
+        
         public Funcionario BuscarFuncionario(int numeroRegistro)
         {
-            Funcionario result = Funcionario.Where(x => x.Registro == numeroRegistro).SingleOrDefault();
+            Funcionario result = Funcionario.AsQueryable().Where(x => x.Registro == numeroRegistro).SingleOrDefault();
             return result;
 
         }
 
         public List<Funcionario> BuscarFuncionario()
         {
-            IEnumerable todosFuncionarios = Funcionario.Where(x => x.Registro != 0);
+            IEnumerable todosFuncionarios = Funcionario.AsQueryable().Where(x => x.Registro != 0);
 
             List<Funcionario> funcionarios = new List<Funcionario>();
 
@@ -107,7 +109,7 @@ namespace Calculador_de_Horas.Database
         /// <returns>Retorna um IEnumerable contendo uma lista de todos os registros encontrados.</returns>
         public IEnumerable BuscaCartaoPonto(Funcionario funcionario, DateTime dataBusca)
         {
-            IEnumerable Cartao = HorasFuncionarios.Where(x => x.FuncionarioId == funcionario.Id &&
+            IEnumerable Cartao = HorasFuncionarios.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
             x.DataRegistro.Month == dataBusca.Month &&
             x.DataRegistro.Year == dataBusca.Year).OrderBy(x => x.DataRegistro);
             return Cartao;
@@ -115,7 +117,7 @@ namespace Calculador_de_Horas.Database
 
         public IEnumerable BuscaCartaoPonto(Funcionario funcionario, DateTime dataFinal, DateTime dataInicial)
         {
-            IEnumerable Cartao = HorasFuncionarios.Where(x => x.FuncionarioId == funcionario.Id &&
+            IEnumerable Cartao = HorasFuncionarios.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
             x.DataRegistro <= dataFinal &&
             x.DataRegistro >= dataInicial).OrderBy(x => x.DataRegistro);
             return Cartao;
@@ -128,7 +130,7 @@ namespace Calculador_de_Horas.Database
         /// <returns>Retorna um IEnumerable contendo uma lista de todos os registros encontrados.</returns>
         public IEnumerable BuscaBancoDeHoras(Funcionario funcionario)
         {
-            IEnumerable Banco = BancoDeHoras.Where(x => x.FuncionarioId == funcionario.Id).OrderBy(x => x.DataRegistro);
+            IEnumerable Banco = BancoDeHoras.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id).OrderBy(x => x.DataRegistro);
             return Banco;
         }
 
@@ -141,7 +143,7 @@ namespace Calculador_de_Horas.Database
         /// <returns>Retorna um IEnumerable contendo uma lista de todos os registros encontrados.</returns>
         public IEnumerable BuscaBancoDeHorasFiltrado(Funcionario funcionario, DateTime dataBusca)
         {
-            IEnumerable BancoFiltrado = BancoDeHoras.Where(x => x.FuncionarioId == funcionario.Id &&
+            IEnumerable BancoFiltrado = BancoDeHoras.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
             x.DataRegistro.Month == dataBusca.Month &&
             x.DataRegistro.Year == dataBusca.Year);
             return BancoFiltrado;
@@ -169,7 +171,7 @@ namespace Calculador_de_Horas.Database
 
         public Empresa BuscarEmpresa()
         {
-            Empresa busca = Empresa.Where(x => x.RazaoSocial != null).SingleOrDefault();
+            Empresa busca = Empresa.AsQueryable().Where(x => x.RazaoSocial != null).SingleOrDefault();
             return busca;
         }
 
@@ -189,7 +191,7 @@ namespace Calculador_de_Horas.Database
 
         public HorasFuncionario BuscarRegistro(Funcionario funcionario, DateTime dataAlterar)
         {
-            HorasFuncionario hora = HorasFuncionarios.Where(x => x.FuncionarioId == funcionario.Id && x.DataRegistro == dataAlterar).SingleOrDefault();
+            HorasFuncionario hora = HorasFuncionarios.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id && x.DataRegistro == dataAlterar).SingleOrDefault();
             return hora;
         }
 
