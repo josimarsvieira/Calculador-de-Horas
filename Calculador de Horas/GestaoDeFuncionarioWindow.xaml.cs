@@ -27,7 +27,6 @@ namespace Calculador_de_Horas
             }
         }
 
-
         private Funcionario BuscaFuncionario()
         {
             using (MyDatabaseContext dbContext = new MyDatabaseContext())
@@ -42,6 +41,7 @@ namespace Calculador_de_Horas
                 return null;
             }
         }
+
         /// <summary>
         /// Metodo para preenchimento dos campos com os dados do funcionario recuperado do BD.
         /// </summary>
@@ -108,9 +108,11 @@ namespace Calculador_de_Horas
                                 return;
                             }
                             break;
+
                         case MessageBoxResult.No:
                             PreencherCampos(busca);
                             break;
+
                         case MessageBoxResult.Cancel:
                             return;
                     }

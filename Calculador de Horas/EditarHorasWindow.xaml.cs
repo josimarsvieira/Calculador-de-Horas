@@ -12,6 +12,7 @@ namespace Calculador_de_Horas
     public partial class EditarHorasWindow : Window
     {
         private DateTime dataAlterar;
+
         /// <summary>
         /// Janela de edição do último registro de hora adicionado
         /// </summary>
@@ -40,7 +41,6 @@ namespace Calculador_de_Horas
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             using (MyDatabaseContext dbContext = new MyDatabaseContext())
             {
                 Funcionario funcionario = dbContext.BuscarFuncionario(TranferenciaDados.Registro);

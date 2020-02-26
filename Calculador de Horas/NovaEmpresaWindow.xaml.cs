@@ -6,7 +6,6 @@ using System.Windows;
 
 namespace Calculador_de_Horas
 {
-
     /// <summary>
     /// Lógica interna para NovaEmpresaWindow.xaml..
     /// </summary>
@@ -79,9 +78,11 @@ namespace Calculador_de_Horas
                                 return;
                             }
                             break;
+
                         case MessageBoxResult.No:
                             PreencherCampos(busca);
                             break;
+
                         case MessageBoxResult.Cancel:
                             return;
                     }
@@ -101,7 +102,5 @@ namespace Calculador_de_Horas
                 }
             }
         }
-
-
     }
 }

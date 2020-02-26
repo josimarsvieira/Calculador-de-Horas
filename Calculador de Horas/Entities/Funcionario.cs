@@ -13,38 +13,47 @@ namespace Calculador_de_Horas.Entities
         /// Id gerado pelo BD.
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// Numero de registro.
         /// </summary>
         public int Registro { get; set; }
+
         /// <summary>
         /// Nome do Funcionario.
         /// </summary>
         public string Nome { get; set; }
+
         /// <summary>
         /// Função do funcionario.
         /// </summary>
         public string Funcao { get; set; }
+
         /// <summary>
         /// Hora de inicio do expediente.
         /// </summary>
         public TimeSpan HoraIncio { get; set; }
+
         /// <summary>
         /// Hora de termino do expediente.
         /// </summary>
         public TimeSpan HoraTermino { get; set; }
+
         /// <summary>
         /// Hora de saida para o almoço.
         /// </summary>
         public TimeSpan HoraAlmocoSaida { get; set; }
+
         /// <summary>
         /// Hora de retorno do almoço.
         /// </summary>
         public TimeSpan HoraAlmocoRetorno { get; set; }
+
         /// <summary>
         /// Lista contendo os registros do banco de horas.
         /// </summary>
         public List<BancoDeHoras> BancoDeHoras { get; set; } = new List<BancoDeHoras>();
+
         /// <summary>
         /// Lista contendo os registros de horas extras.
         /// </summary>

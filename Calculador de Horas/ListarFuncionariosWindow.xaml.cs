@@ -3,6 +3,7 @@ using Calculador_de_Horas.Entities;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+
 namespace Calculador_de_Horas
 {
     /// <summary>
@@ -87,7 +88,6 @@ namespace Calculador_de_Horas
             GestaoDeFuncionarioWindow windows = new GestaoDeFuncionarioWindow(selecionado);
             windows.ShowDialog();
             PreencheListBox();
-
         }
     }
 }

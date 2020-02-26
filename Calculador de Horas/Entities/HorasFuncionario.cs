@@ -14,32 +14,39 @@ namespace Calculador_de_Horas.Entities
         /// Id gerado pelo BD.
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// Hora de entrada no trabalho.
         /// </summary>
         public TimeSpan Entrada { get; set; }
+
         /// <summary>
         /// Hora de saida do trabalho.
         /// </summary>
         public TimeSpan Saida { get; set; }
+
         /// <summary>
         /// Horas extras feitas no dia.
         /// </summary>
         public TimeSpan Extras { get; set; }
+
         /// <summary>
         /// Id do funcionario vinculado ao registro.
         /// </summary>
         public int FuncionarioId { get; set; }
+
         /// <summary>
         /// Data do registro.
         /// </summary>
         public DateTime DataRegistro { get; set; }
+
         /// <summary>
         /// Construtor padrão.
         /// </summary>
         public HorasFuncionario()
         {
         }
+
         /// <summary>
         /// Instancia um objeto para calculo de horas extras de um dia trabalhado. O objeto calcula as horas Extras automaticamente.
         /// </summary>

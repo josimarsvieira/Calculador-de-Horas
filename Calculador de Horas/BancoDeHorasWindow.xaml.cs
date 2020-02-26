@@ -21,7 +21,6 @@ namespace Calculador_de_Horas
         {
             InitializeComponent();
             RefreshWindow(registro, dataBusca);
-
         }
 
         /// <summary>

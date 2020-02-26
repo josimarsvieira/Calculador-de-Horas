@@ -8,12 +8,11 @@
         Title="Lista de Funcionários Cadastrados" Height="385" Width="339.617">
     <Grid Margin="0,0,2,2">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="lbFuncionarios" Margin="10,8,11,57" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
-        <Button x:Name="btnSelecionar" Content="Selecionar" Margin="0,0,10,10" Click="BtnSelecionar_Click" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom"/>
-        <Button x:Name="btnEditar" Content="Editar" Margin="0,0,98,10" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom" Click="BtnEditar_Click"/>
-        <Button x:Name="btnNovo" Content="Novo" Margin="0,0,186,10" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom" Click="BtnNovo_Click"/>
-
+        <ListBox x:Name="lbFuncionarios" Margin="10,8,11,57" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+        <Button x:Name="btnSelecionar" Content="Selecionar" Margin="0,0,10,10" Click="BtnSelecionar_Click" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom" />
+        <Button x:Name="btnEditar" Content="Editar" Margin="0,0,98,10" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom" Click="BtnEditar_Click" />
+        <Button x:Name="btnNovo" Content="Novo" Margin="0,0,186,10" HorizontalAlignment="Right" Width="83" Height="25" VerticalAlignment="Bottom" Click="BtnNovo_Click" />
     </Grid>
 </Window>

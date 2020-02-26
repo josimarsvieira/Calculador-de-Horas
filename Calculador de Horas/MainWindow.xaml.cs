@@ -45,15 +45,14 @@ namespace Calculador_de_Horas
 
             using (MyDatabaseContext dbContext = new MyDatabaseContext())
             {
-
                 IEnumerable horas;
                 List<DateTime> datasComRegistros = new List<DateTime>();
 
-                horas = dbContext.BuscaCartaoPonto(func, 
+                horas = dbContext.BuscaCartaoPonto(func,
                     new DateTime(
-                        selecionada.Month == 12 && selecionada.Day >= fechamento ? selecionada.Year + 1 : selecionada.Year, 
-                        selecionada.Day >= fechamento ? selecionada.Month == 12 ? 1 : selecionada.Month + 1 : selecionada.Month, 
-                        fechamento -1),
+                        selecionada.Month == 12 && selecionada.Day >= fechamento ? selecionada.Year + 1 : selecionada.Year,
+                        selecionada.Day >= fechamento ? selecionada.Month == 12 ? 1 : selecionada.Month + 1 : selecionada.Month,
+                        fechamento - 1),
 
                     new DateTime(
                         selecionada.Month == 1 ? selecionada.Year - 1 : selecionada.Year,
@@ -95,8 +94,6 @@ namespace Calculador_de_Horas
                 lblBancoHoras.Content = totalBancoHoras;
                 lblTotalExtras.Content = totalHoras.ToString();
 
-
-
                 if (totalBancoHoras >= horaTrabalho)
                 {
                     while (totalBancoHoras >= horaTrabalho)
@@ -125,7 +122,6 @@ namespace Calculador_de_Horas
                 }
                 return datasComRegistros;
             }
-
         }
 
         /// <summary>
@@ -267,7 +263,6 @@ namespace Calculador_de_Horas
                     btnDeletar.IsEnabled = false;
                 }
             }
-
         }
 
         /// <summary>
@@ -346,9 +341,7 @@ namespace Calculador_de_Horas
                             horas.CalculaExtras(new TimeSpan(0, 0, 0));
                             funcionario.AddMarcacaoPonto(horas);
                         }
-
                     }
-
                     else
                     {
                         if (cbHoraEntrada.SelectedIndex == 0 && cbMinutosEntrada.SelectedIndex == 0 && cbHoraSaida.SelectedIndex == 0 && cbMinutosEntrada.SelectedIndex == 0)
@@ -358,11 +351,13 @@ namespace Calculador_de_Horas
                                 case MessageBoxResult.Yes:
                                     horas.CalculaExtras(horaTrabalho);
                                     break;
+
                                 case MessageBoxResult.No:
                                     TimeSpan extras = horas.CalculaExtras(new TimeSpan(0, 0, 0));
                                     funcionario.AtualizarBancoHoras(new BancoDeHoras(extras, $"Falta abonada em {DateTime.Now.ToShortDateString()}", dataSelecionada));
                                     dbContext.UpdateBanco(funcionario);
                                     break;
+
                                 case MessageBoxResult.Cancel:
                                     return;
                             }
@@ -435,7 +430,6 @@ namespace Calculador_de_Horas
             GestaoDeFuncionarioWindow windows = new GestaoDeFuncionarioWindow(txtRegistro.Text);
             windows.ShowDialog();
             BuscarFuncionario();
-
         }
 
         /// <summary>

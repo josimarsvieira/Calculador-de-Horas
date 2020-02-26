@@ -14,18 +14,22 @@ namespace Calculador_de_Horas.Entities
         /// Id gerada pelo BD.
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// TimeSpan contendo as horas extras do funcionario.
         /// </summary>
         public TimeSpan HorasExtras { get; set; }
+
         /// <summary>
         /// String contendo a justificativa para adição.
         /// </summary>
         public string Justificativa { get; set; }
+
         /// <summary>
         /// Id do funcionario vinculado a esse registro.
         /// </summary>
         public int FuncionarioId { get; set; }
+
         /// <summary>
         /// Dia do registro.
         /// </summary>

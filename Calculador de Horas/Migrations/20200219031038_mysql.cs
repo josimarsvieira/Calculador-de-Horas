@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Calculador_de_Horas.Migrations
 {
-    public partial class InicioDaNovaFase : Migration
+    public partial class mysql : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace Calculador_de_Horas.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RazaoSocial = table.Column<string>(nullable: true),
                     CNPJ = table.Column<string>(nullable: true),
                     DiaFechamento = table.Column<int>(nullable: false)
@@ -27,7 +28,7 @@ namespace Calculador_de_Horas.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Registro = table.Column<int>(nullable: false),
                     Nome = table.Column<string>(nullable: true),
                     Funcao = table.Column<string>(nullable: true),
@@ -46,7 +47,7 @@ namespace Calculador_de_Horas.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     HorasExtras = table.Column<TimeSpan>(nullable: false),
                     Justificativa = table.Column<string>(nullable: true),
                     FuncionarioId = table.Column<int>(nullable: false),
@@ -68,7 +69,7 @@ namespace Calculador_de_Horas.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Entrada = table.Column<TimeSpan>(nullable: false),
                     Saida = table.Column<TimeSpan>(nullable: false),
                     Extras = table.Column<TimeSpan>(nullable: false),

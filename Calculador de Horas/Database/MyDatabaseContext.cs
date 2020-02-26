@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Calculador_de_Horas.Database
 {
@@ -17,10 +16,12 @@ namespace Calculador_de_Horas.Database
         /// Representação da tabela Horas dos Funcionarios no banco de dados.
         /// </summary>
         public DbSet<HorasFuncionario> HorasFuncionarios { get; private set; }
+
         /// <summary>
         /// Representação da tabela funcionario no banco de dados.
         /// </summary>
         public DbSet<Funcionario> Funcionario { get; private set; }
+
         /// <summary>
         /// Representação da tabela Banco de Horas no banco de dados.
         /// </summary>
@@ -32,9 +33,26 @@ namespace Calculador_de_Horas.Database
         /// Metodo que fornece a String de conexão com o BD.
         /// </summary>
         /// <param name="optionsBuilder"></param>
+
+        public MyDatabaseContext()
+        : base()
+        {
+        }
+
+        public MyDatabaseContext(DbContextOptions<MyDatabaseContext> options)
+        : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=MyDatabase.sqlite");
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseMySql("server=localhost;port=3306;database=calculador;uid=root;password=root");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
 
         /// <summary>
@@ -68,26 +86,17 @@ namespace Calculador_de_Horas.Database
         /// </summary>
         /// <param name="numeroRegistro">Numero do registro do funcionario a ser localizado.</param>
         /// <returns>Retorna um objeto do tipo Funcionario.</returns>
-        
+
         public Funcionario BuscarFuncionario(int numeroRegistro)
         {
             Funcionario result = Funcionario.AsQueryable().Where(x => x.Registro == numeroRegistro).SingleOrDefault();
             return result;
-
         }
 
         public List<Funcionario> BuscarFuncionario()
         {
-            IEnumerable todosFuncionarios = Funcionario.AsQueryable().Where(x => x.Registro != 0);
-
-            List<Funcionario> funcionarios = new List<Funcionario>();
-
-            foreach (Funcionario func in todosFuncionarios)
-            {
-                funcionarios.Add(func);
-            }
-
-            return funcionarios;
+            List<Funcionario> todosFuncionarios = Funcionario.AsQueryable().Where(x => x.Registro != 0).ToList();
+            return todosFuncionarios;
         }
 
         /// <summary>
@@ -96,8 +105,20 @@ namespace Calculador_de_Horas.Database
         /// <param name="funcionario">Objeto do tipo funcionario recuperado do BD para a adição.</param>
         public void UpdateFuncionario(Funcionario funcionario)
         {
-            Funcionario.Update(funcionario);
-            SaveChanges();
+            try
+            {
+                if (funcionario == null)
+                {
+                    throw new ArgumentNullException("horasFuncionario");
+                }
+
+                Entry(funcionario).State = EntityState.Modified;
+                SaveChanges();
+            }
+            catch (Exception dbx)
+            {
+                throw dbx;
+            }
         }
 
         /// <summary>
@@ -107,19 +128,19 @@ namespace Calculador_de_Horas.Database
         /// <param name="mes">Mes referente ao periodo desejado para recuperação.</param>
         /// <param name="ano">Ano referente ao periodo desejado para recuperação.</param>
         /// <returns>Retorna um IEnumerable contendo uma lista de todos os registros encontrados.</returns>
-        public IEnumerable BuscaCartaoPonto(Funcionario funcionario, DateTime dataBusca)
+        public List<HorasFuncionario> BuscaCartaoPonto(Funcionario funcionario, DateTime dataBusca)
         {
-            IEnumerable Cartao = HorasFuncionarios.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
+            List<HorasFuncionario> Cartao = HorasFuncionarios.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
             x.DataRegistro.Month == dataBusca.Month &&
-            x.DataRegistro.Year == dataBusca.Year).OrderBy(x => x.DataRegistro);
+            x.DataRegistro.Year == dataBusca.Year).OrderBy(x => x.DataRegistro).ToList();
             return Cartao;
         }
 
-        public IEnumerable BuscaCartaoPonto(Funcionario funcionario, DateTime dataFinal, DateTime dataInicial)
+        public List<HorasFuncionario> BuscaCartaoPonto(Funcionario funcionario, DateTime dataFinal, DateTime dataInicial)
         {
-            IEnumerable Cartao = HorasFuncionarios.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
+            List<HorasFuncionario> Cartao = HorasFuncionarios.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
             x.DataRegistro <= dataFinal &&
-            x.DataRegistro >= dataInicial).OrderBy(x => x.DataRegistro);
+            x.DataRegistro >= dataInicial).OrderBy(x => x.DataRegistro).ToList();
             return Cartao;
         }
 
@@ -128,9 +149,9 @@ namespace Calculador_de_Horas.Database
         /// </summary>
         /// <param name="funcionario">Objeto do tipo funcionario recuperado do BD.</param>
         /// <returns>Retorna um IEnumerable contendo uma lista de todos os registros encontrados.</returns>
-        public IEnumerable BuscaBancoDeHoras(Funcionario funcionario)
+        public List<BancoDeHoras> BuscaBancoDeHoras(Funcionario funcionario)
         {
-            IEnumerable Banco = BancoDeHoras.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id).OrderBy(x => x.DataRegistro);
+            List<BancoDeHoras> Banco = BancoDeHoras.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id).OrderBy(x => x.DataRegistro).ToList();
             return Banco;
         }
 
@@ -141,11 +162,11 @@ namespace Calculador_de_Horas.Database
         /// <param name="mes">Mes referente ao periodo desejado para recuperação.</param>
         /// <param name="ano">Ano referente ao periodo desejado para recuperação.</param>
         /// <returns>Retorna um IEnumerable contendo uma lista de todos os registros encontrados.</returns>
-        public IEnumerable BuscaBancoDeHorasFiltrado(Funcionario funcionario, DateTime dataBusca)
+        public List<BancoDeHoras> BuscaBancoDeHorasFiltrado(Funcionario funcionario, DateTime dataBusca)
         {
-            IEnumerable BancoFiltrado = BancoDeHoras.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
+            List<BancoDeHoras> BancoFiltrado = BancoDeHoras.AsQueryable().Where(x => x.FuncionarioId == funcionario.Id &&
             x.DataRegistro.Month == dataBusca.Month &&
-            x.DataRegistro.Year == dataBusca.Year);
+            x.DataRegistro.Year == dataBusca.Year).ToList();
             return BancoFiltrado;
         }
 
@@ -155,12 +176,24 @@ namespace Calculador_de_Horas.Database
         /// <param name="horasFuncionario">Objeto do tipo HorasFuncionario recuperado do BD.</param>
         public void UpdateHora(HorasFuncionario horasFuncionario)
         {
-            HorasFuncionarios.Update(horasFuncionario);
-            SaveChanges();
+            try
+            {
+                if (horasFuncionario == null)
+                {
+                    throw new ArgumentNullException("horasFuncionario");
+                }
+
+                Entry(horasFuncionario).State = EntityState.Modified;
+                SaveChanges();
+            }
+            catch (Exception dbx)
+            {
+                throw dbx;
+            }
         }
 
         /// <summary>
-        /// Adiciona um novo registro no banco de horas de um funcionario. 
+        /// Adiciona um novo registro no banco de horas de um funcionario.
         /// </summary>
         /// <param name="funcionario">Objeto do tipo Funcionario recuperado do BD.</param>
         public void UpdateBanco(Funcionario funcionario)
@@ -197,7 +230,8 @@ namespace Calculador_de_Horas.Database
 
         public void RemoveHora(Funcionario funcionario, DateTime dataRemover)
         {
-            Remove(funcionario.CartaoPonto.Single(x => x.DataRegistro == dataRemover));
+            Funcionario.Attach(funcionario);
+            Funcionario.Remove(funcionario);
             SaveChanges();
         }
     }

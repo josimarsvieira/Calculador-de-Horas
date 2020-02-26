@@ -8,16 +8,15 @@
         Title="Cadastrar Nova Empresa" Height="207.702" Width="299.34" ResizeMode="NoResize">
     <Grid Margin="0,0,2,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Left" Margin="10,37,0,0" TextWrapping="Wrap" Text="Razão Social:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,65,0,0" TextWrapping="Wrap" Text="CNPJ:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,93,0,0" TextWrapping="Wrap" Text="Dia do fechamento:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="88,10,0,0" TextWrapping="Wrap" Text="Cadastrar Empresa:" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtRazao" HorizontalAlignment="Left" Height="23" Margin="157,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtCNPJ" Height="23" Margin="157,60,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" HorizontalAlignment="Left"/>
-        <ComboBox x:Name="cbDia" SelectedIndex="0" HorizontalAlignment="Left" Margin="157,89,0,0" VerticalAlignment="Top" Width="44"/>
-        <Button Content="Salvar" HorizontalAlignment="Left" Margin="202,135,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-
+        <TextBlock HorizontalAlignment="Left" Margin="10,37,0,0" TextWrapping="Wrap" Text="Razão Social:" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="10,65,0,0" TextWrapping="Wrap" Text="CNPJ:" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="10,93,0,0" TextWrapping="Wrap" Text="Dia do fechamento:" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="88,10,0,0" TextWrapping="Wrap" Text="Cadastrar Empresa:" VerticalAlignment="Top" />
+        <TextBox x:Name="txtRazao" HorizontalAlignment="Left" Height="23" Margin="157,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" />
+        <TextBox x:Name="txtCNPJ" Height="23" Margin="157,60,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" HorizontalAlignment="Left" />
+        <ComboBox x:Name="cbDia" SelectedIndex="0" HorizontalAlignment="Left" Margin="157,89,0,0" VerticalAlignment="Top" Width="44" />
+        <Button Content="Salvar" HorizontalAlignment="Left" Margin="202,135,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" />
     </Grid>
 </Window>

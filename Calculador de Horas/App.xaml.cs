@@ -1,6 +1,4 @@
-﻿using Calculador_de_Horas.Database;
-using Microsoft.EntityFrameworkCore;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Calculador_de_Horas
 {
@@ -12,11 +10,6 @@ namespace Calculador_de_Horas
         public App()
         {
             InitializeComponent();
-
-            using (MyDatabaseContext dbContext = new MyDatabaseContext())
-            {
-                dbContext.Database.Migrate();
-            }
         }
     }
 }
