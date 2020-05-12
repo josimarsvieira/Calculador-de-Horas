@@ -10,7 +10,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: SonarCloudAnalyze@1
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
