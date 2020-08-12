@@ -1,23 +1,33 @@
-﻿<Window x:Class="Calculador_de_Horas.BancoDeHorasWindow"
+﻿<Window x:Class="CalculadorDeHoras.BancoDeHorasWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Calculador_de_Horas"
+        xmlns:local="clr-namespace:CalculadorDeHoras"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Foreground="{DynamicResource MaterialDesignBody}"
         mc:Ignorable="d"
-        Title="BancoDeHoras" Height="677.844" Width="553.721">
-    <Grid Margin="0,0,-8,3">
+        Title="BancoDeHoras" Height="677.844" Width="553.721" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="None">
+    <Grid Margin="0,0,10,3">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="611*" />
+            <RowDefinition Height="48*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Content="HORAS EXTRAS" Margin="100,53,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="93" />
-        <Label Content="JUSTIFICATIVA" Margin="198,53,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="86" />
-        <Label Content="Registros do Banco de Horas" Margin="122,10,0,0" RenderTransformOrigin="1.075,0.538" Width="175" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <Button Content="Fechar" Margin="241,0,238,10" Click="Button_Click" Height="28" VerticalAlignment="Bottom" />
-        <Label Content="DATA" Margin="10,53,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="38" />
-        <ListBox x:Name="listBoxRegistros" Margin="10,84,0,43" HorizontalAlignment="Left" Width="534" />
+        <Label Content="Registros do Banco de Horas" Margin="10,10,10,10" RenderTransformOrigin="1.075,0.538" Width="175" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Button Content="Fechar" Margin="10,10,10,10" Click="BtnClose_Click" Height="25" VerticalAlignment="Center" Grid.Row="1" Width="100" HorizontalAlignment="Center" />
+        <DataGrid x:Name="dgBanco" AutoGenerateColumns="False" Margin="10,50,10,10" HorizontalAlignment="Center" Width="530" VerticalAlignment="Top" Height="562" RenderTransformOrigin="0.5,0.5" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Data" Binding="{Binding DataRegistro, StringFormat=dd/MM/yyyy}" Width="100" />
+                <DataGridTextColumn Header="Horas Extras" Binding="{Binding HorasExtras}" Width="100" />
+                <DataGridTextColumn Header="Justificativa" Binding="{Binding Justificativa}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="BtnClose" Click="BtnClose_Click" Width="20" Height="20" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="6" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top">
+            <materialDesign:PackIcon Kind="Close" Foreground="Black" Grid.Column="6" />
+        </Button>
     </Grid>
 </Window>

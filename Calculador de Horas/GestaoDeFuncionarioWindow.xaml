@@ -3,15 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Calculador_de_Horas"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Calculador_de_Horas.GestaoDeFuncionarioWindow"
+        xmlns:local="clr-namespace:CalculadorDeHoras"
+       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Foreground="{DynamicResource MaterialDesignBody}"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="CalculadorDeHoras.GestaoDeFuncionarioWindow"
         mc:Ignorable="d"
-        Title="Modificar Cadastro" Height="335" Width="270" ResizeMode="NoResize">
+        Title="Modificar Cadastro" Height="361" Width="269" ResizeMode="NoResize" WindowStyle="None" ShowInTaskbar="False">
     <Grid Margin="0,0,2,1">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="141*" />
+            <RowDefinition Height="163*" />
+            <RowDefinition Height="40*" />
         </Grid.RowDefinitions>
-        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" Margin="0,0,10,9" Width="75" Click="BtnSalvar_Click" Height="35" VerticalAlignment="Bottom" TabIndex="11" />
+        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" Margin="0,0,9,0" Width="100" Click="BtnSalvar_Click" Height="25" VerticalAlignment="Center" TabIndex="11" Grid.Row="2" />
         <Label x:Name="lblNome" Content="Nome: " HorizontalAlignment="Left" Margin="10,71,0,0" Width="49" Height="26" VerticalAlignment="Top" />
         <Label x:Name="lblFuncao" Content="Função: " HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top" Height="26" Width="54" />
         <Label x:Name="lblRegistro" Content="Registro: " HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Height="26" Width="59" />
@@ -19,17 +24,18 @@
         <TextBox x:Name="txtRegistro" Height="23" Margin="74,48,9,0" TextWrapping="Wrap" VerticalAlignment="Top" AutomationProperties.HelpText="Número do registro" TabIndex="0" />
         <TextBox x:Name="txtNome" Margin="74,74,9,0" TextWrapping="Wrap" AutomationProperties.HelpText="Nome completo" Height="23" VerticalAlignment="Top" TabIndex="1" />
         <TextBox x:Name="txtFuncao" Height="23" Margin="74,101,9,0" TextWrapping="Wrap" VerticalAlignment="Top" AutomationProperties.HelpText="Função" TabIndex="2" />
-        <Label x:Name="lblRegistro_Copy" Content="Hora Inicio: " HorizontalAlignment="Left" Margin="10,135,0,136" VerticalAlignment="Bottom" Height="26" Width="88" />
-        <Label x:Name="lblRegistro_Copy1" Content="Hora Termino: " HorizontalAlignment="Left" Margin="10,0,0,57" VerticalAlignment="Bottom" Height="26" Width="88" />
-        <ComboBox x:Name="cbMinutosInicio" Margin="0,0,10,140" HorizontalAlignment="Right" Width="46" SelectedIndex="0" Height="22" VerticalAlignment="Bottom" TabIndex="4" />
-        <ComboBox x:Name="cbHoraIncio" Margin="0,0,56,140" HorizontalAlignment="Right" Width="46" SelectedIndex="7" Height="22" VerticalAlignment="Bottom" TabIndex="3" />
-        <ComboBox x:Name="cbMinutosTermino" Margin="0,0,10,58" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="33" Height="22" TabIndex="6" />
-        <ComboBox x:Name="cbHoraTermino" Margin="0,0,56,58" HorizontalAlignment="Right" Width="45" SelectedIndex="17" Height="22" VerticalAlignment="Bottom" TabIndex="5" />
-        <Label Content="Saida para Almoço:" Margin="10,0,118,110" VerticalAlignment="Bottom" Height="26" />
-        <ComboBox x:Name="cbMinutosAlmocoSaida" Margin="0,0,10,112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="0" Height="22" TabIndex="8" />
-        <ComboBox x:Name="cbHoraAlmocoSaida" Margin="0,0,56,112" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="45" SelectedIndex="11" Height="22" TabIndex="7" />
-        <Label Content="Retorno do Almoço:" Margin="10,0,118,84" VerticalAlignment="Bottom" Height="26" />
-        <ComboBox x:Name="cbMinutosAlmocoRetorno" Margin="0,0,10,85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" SelectedIndex="45" Height="22" TabIndex="9" />
-        <ComboBox x:Name="cbHoraAlmocoRetorno" Margin="0,0,56,85" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="45" SelectedIndex="12" Height="22" TabIndex="8" />
+        <Label x:Name="lblRegistro_Copy" Content="Hora Inicio: " HorizontalAlignment="Left" Margin="10,0,0,127" VerticalAlignment="Bottom" Height="26" Width="88" Grid.Row="1" />
+        <Label x:Name="lblRegistro_Copy1" Content="Hora Termino: " HorizontalAlignment="Left" Margin="10,0,0,40" VerticalAlignment="Bottom" Height="26" Width="88" Grid.Row="1" RenderTransformOrigin="0.509,0.392" />
+        <Label Content="Saida para Almoço:" Margin="10,0,118,101" VerticalAlignment="Bottom" Height="26" Grid.Row="1" />
+        <Label Content="Retorno do Almoço:" Margin="10,0,0,71" VerticalAlignment="Bottom" Height="26" Grid.Row="1" HorizontalAlignment="Left" Width="139" />
+        <materialDesign:TimePicker Name="timePickerEntrada" Is24Hours="True" Margin="0,0,9,132" VerticalAlignment="Bottom" Grid.Row="1" Height="25" Padding="0,0,0,0" HorizontalAlignment="Right" Width="79" />
+        <materialDesign:TimePicker Name="timePickerSaidaAlmoco" Is24Hours="True" Margin="0,0,9,101" Grid.Row="1" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="79" />
+        <materialDesign:TimePicker Name="timePickerRetornoAlmoco" Is24Hours="True" HorizontalAlignment="Right" Margin="0,0,9,71" VerticalAlignment="Bottom" Grid.Row="1" Height="25" Width="79" />
+        <materialDesign:TimePicker Name="timePickerSaida" Is24Hours="True" HorizontalAlignment="Right" Margin="0,0,9,40" VerticalAlignment="Bottom" Grid.Row="1" Height="25" Width="79" />
+        <Label x:Name="lblRegistro_Copy2" Content="Ativo:" HorizontalAlignment="Left" Margin="10,0,0,14" VerticalAlignment="Bottom" Height="26" Width="88" Grid.Row="1" RenderTransformOrigin="0.509,0.392" />
+        <CheckBox x:Name="checkAtivo" HorizontalAlignment="Right" Margin="0,0,9,14" Grid.Row="1" VerticalAlignment="Bottom" />
+        <Button x:Name="BtnClose" Click="BtnClose_Click" Width="20" Height="20" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top">
+            <materialDesign:PackIcon Kind="Close" Foreground="Black" Grid.Column="6" />
+        </Button>
     </Grid>
 </Window>

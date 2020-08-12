@@ -1,106 +1,109 @@
-﻿using Calculador_de_Horas.Database;
-using Calculador_de_Horas.Entities;
+﻿using CalculadorDeHoras.Database;
+using CalculadorDeHoras.Entities;
 using System;
-using System.Collections.Generic;
+using System.Net.Http;
 using System.Windows;
 
-namespace Calculador_de_Horas
+namespace CalculadorDeHoras
 {
     /// <summary>
     /// Interaction logic for EditarHorasWindow.xaml
     /// </summary>
     public partial class EditarHorasWindow : Window
     {
-        private DateTime dataAlterar;
+        private readonly Funcionario Func;
+        private readonly HorasFuncionario Horas;
 
         /// <summary>
         /// Janela de edição do último registro de hora adicionado
         /// </summary>
-        public EditarHorasWindow(DateTime data)
+        public EditarHorasWindow(HorasFuncionario horasFuncionario, Funcionario funcionario)
         {
-            dataAlterar = data;
+            Horas = horasFuncionario;
+            Func = funcionario;
             InitializeComponent();
-            PreencheComboBox();
             RegistroParaAlterar();
         }
 
         /// <summary>
         /// Metodo para popular os itens do comboBox
         /// </summary>
-        private void PreencheComboBox()
-        {
-            List<string> Horas = new List<string> { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" };
-            List<string> Minutos = new List<string> { "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29",
-                "30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"};
 
-            cbHoraEntrada.ItemsSource = Horas;
-            cbMinutosEntrada.ItemsSource = Minutos;
-            cbHoraSaida.ItemsSource = Horas;
-            cbMinutosSaida.ItemsSource = Minutos;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            using (MyDatabaseContext dbContext = new MyDatabaseContext())
+            if (!VerificaPreenchimento())
             {
-                Funcionario funcionario = dbContext.BuscarFuncionario(TranferenciaDados.Registro);
-                HorasFuncionario horasFuncionario = dbContext.BuscarRegistro(funcionario, dataAlterar);
-                TimeSpan entrada = new TimeSpan(int.Parse(cbHoraEntrada.SelectionBoxItem.ToString()), int.Parse(cbMinutosEntrada.SelectionBoxItem.ToString()), 0);
-                TimeSpan saida = new TimeSpan(int.Parse(cbHoraSaida.SelectionBoxItem.ToString()), int.Parse(cbMinutosSaida.SelectionBoxItem.ToString()), 0);
-
-                TimeSpan totalHoraAlmoco = funcionario.HoraAlmocoRetorno.Subtract(funcionario.HoraAlmocoSaida);
-                TimeSpan horaTrabalho = funcionario.HoraTermino.Subtract(funcionario.HoraIncio).Subtract(totalHoraAlmoco);
-
-                if (horasFuncionario.Extras != (new TimeSpan(0, 0, 0)))
-                {
-                    BancoDeHoras removerDoBancoDeHoras = new BancoDeHoras(-horasFuncionario.Extras, "Horas extras removidas", horasFuncionario.DataRegistro);
-                    funcionario.AtualizarBancoHoras(removerDoBancoDeHoras);
-                    dbContext.UpdateBanco(funcionario);
-                }
-
-                horasFuncionario.Entrada = entrada;
-                horasFuncionario.Saida = saida;
-                horasFuncionario.CalculaExtras(horaTrabalho.Add(totalHoraAlmoco));
-
-                if (horasFuncionario.Extras <= new TimeSpan(0, 10, 0) && horasFuncionario.Extras >= new TimeSpan(0, -10, 0))
-                {
-                    horasFuncionario.Extras = new TimeSpan(0, 0, 0);
-                }
-
-                string justificativa = txtBoxJustificativa.Text;
-
-                if (justificativa.Length < 20)
-                {
-                    MessageBox.Show("A alteração só pode ser feita com uma justificativa de mínimo 20 caracteres.");
-                    return;
-                }
-
-                BancoDeHoras bancoDeHoras = new BancoDeHoras(horasFuncionario.Extras, justificativa, DateTime.Now);
-                funcionario.AtualizarBancoHoras(bancoDeHoras);
-
-                dbContext.UpdateBanco(funcionario);
-                dbContext.UpdateHora(horasFuncionario);
+                MessageBox.Show("Existem campos não preechidos");
+                return;
             }
 
-            MessageBox.Show("Alteração efetuada");
+            TimeSpan entrada = new TimeSpan(timePickerEntrada.SelectedTime.Value.Hour, timePickerEntrada.SelectedTime.Value.Minute, 0);
+            TimeSpan saida = new TimeSpan(timePickerSaida.SelectedTime.Value.Hour, timePickerSaida.SelectedTime.Value.Minute, 0);
+            TimeSpan saidaAlmoco = new TimeSpan(timePickerSaidaAlmoco.SelectedTime.Value.Hour, timePickerSaidaAlmoco.SelectedTime.Value.Minute, 0);
+            TimeSpan retornoAlmoco = new TimeSpan(timePickerRetornoAlmoco.SelectedTime.Value.Hour, timePickerRetornoAlmoco.SelectedTime.Value.Minute, 0);
+
+            TimeSpan totalHoraAlmoco = retornoAlmoco.Subtract(saidaAlmoco);
+            TimeSpan horaTrabalho = Func.HoraTermino.Subtract(Func.HoraInicio).Subtract(totalHoraAlmoco);
+
+            if (Horas.Extras != (new TimeSpan(0, 0, 0)))
+            {
+                BancoDeHoras removerDoBancoDeHoras = new BancoDeHoras(-Horas.Extras, "Horas extras removidas por edição de horas", Horas.DataRegistro, Func.Registro);
+                await ClientApi.CreateBankHoursAsync(removerDoBancoDeHoras).ConfigureAwait(true);
+            }
+
+            Horas.Entrada = entrada;
+            Horas.Saida = saida;
+            Horas.HoraSaidaAlmoco = saidaAlmoco == new TimeSpan(0, 0, 0) ? Func.HoraSaidaAlmoco : saidaAlmoco;
+            Horas.HoraRetornoAlmoco = retornoAlmoco == new TimeSpan(0, 0, 0) ? Func.HoraRetornoAlmoco : retornoAlmoco;
+            Horas.CalculaExtras(horaTrabalho);
+
+            if (Horas.Extras <= new TimeSpan(0, 10, 0) && Horas.Extras >= new TimeSpan(0, -10, 0))
+            {
+                Horas.Extras = new TimeSpan(0, 0, 0);
+            }
+
+            string justificativa = txtBoxJustificativa.Text;
+
+            if (justificativa.Length < 20)
+            {
+                MessageBox.Show("A alteração só pode ser feita com uma justificativa de mínimo 20 caracteres.");
+                return;
+            }
+
+            BancoDeHoras bancoDeHoras = new BancoDeHoras(Horas.Extras, justificativa, DateTime.Now, Func.Registro);
+
+            try
+            {
+                await ClientApi.CreateBankHoursAsync(bancoDeHoras).ConfigureAwait(true);
+                await ClientApi.UpdateEmployeeHoursAsync(Horas).ConfigureAwait(true);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
             Close();
         }
 
         private void RegistroParaAlterar()
         {
-            using (MyDatabaseContext dbContext = new MyDatabaseContext())
+            if (Horas != null)
             {
-                Funcionario funcionario = dbContext.BuscarFuncionario(TranferenciaDados.Registro);
-                HorasFuncionario horasFuncionario = dbContext.BuscarRegistro(funcionario, dataAlterar);
-
-                if (horasFuncionario != null)
-                {
-                    cbHoraEntrada.SelectedIndex = horasFuncionario.Entrada.Hours;
-                    cbMinutosEntrada.SelectedIndex = horasFuncionario.Entrada.Minutes;
-                    cbHoraSaida.SelectedIndex = horasFuncionario.Saida.Hours;
-                    cbMinutosSaida.SelectedIndex = horasFuncionario.Saida.Minutes;
-                }
+                timePickerEntrada.SelectedTime = new DateTime().Add(Horas.Entrada);
+                timePickerSaidaAlmoco.SelectedTime = new DateTime().Add(Horas.HoraSaidaAlmoco);
+                timePickerRetornoAlmoco.SelectedTime = new DateTime().Add(Horas.HoraRetornoAlmoco);
+                timePickerSaida.SelectedTime = new DateTime().Add(Horas.Saida);
             }
+        }
+
+        private bool VerificaPreenchimento()
+        {
+            return timePickerEntrada.SelectedTime.HasValue && timePickerRetornoAlmoco.SelectedTime.HasValue && timePickerSaidaAlmoco.SelectedTime.HasValue && timePickerSaida.SelectedTime.HasValue;
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

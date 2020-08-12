@@ -1,9 +1,6 @@
-﻿using Calculador_de_Horas.Database;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
-namespace Calculador_de_Horas.Entities
+namespace CalculadorDeHoras.Entities
 {
     /// <summary>
     /// Classe responsavel pelos registros do Banco de Hora.
@@ -11,24 +8,26 @@ namespace Calculador_de_Horas.Entities
     public class BancoDeHoras
     {
         /// <summary>
-        /// Id gerada pelo BD.
+        /// Construtor padrão
         /// </summary>
-        public int Id { get; set; }
+        public BancoDeHoras()
+        {
+        }
 
         /// <summary>
-        /// TimeSpan contendo as horas extras do funcionario.
+        /// Banco de horas do funcionario.
         /// </summary>
-        public TimeSpan HorasExtras { get; set; }
-
-        /// <summary>
-        /// String contendo a justificativa para adição.
-        /// </summary>
-        public string Justificativa { get; set; }
-
-        /// <summary>
-        /// Id do funcionario vinculado a esse registro.
-        /// </summary>
-        public int FuncionarioId { get; set; }
+        /// <param name="horasExtras">TimeSpan contendo a quantidade de horas extras do funcionário</param>
+        /// <param name="justificativa">String de justificativa da inclusão</param>
+        /// <param name="dataRegistro">Data do registro</param>
+        /// <param name="funcionarioId">Número do registro do funcionário</param>
+        public BancoDeHoras(TimeSpan horasExtras, string justificativa, DateTime dataRegistro, int funcionarioId)
+        {
+            HorasExtras = horasExtras;
+            Justificativa = justificativa;
+            DataRegistro = dataRegistro;
+            Funcionario = funcionarioId;
+        }
 
         /// <summary>
         /// Dia do registro.
@@ -36,32 +35,23 @@ namespace Calculador_de_Horas.Entities
         public DateTime DataRegistro { get; set; }
 
         /// <summary>
-        /// Banco de horas do funcionario.
+        /// Registro do funcionario
         /// </summary>
-        /// <param name="horasExtras">TimeSpan contendo a quantidade de horas extras do funcionario.</param>
-        /// <param name="justificativa">String de justificativa da inclusão.</param>
-        /// <param name="dia">Dia do registro.</param>
-        /// <param name="mes">Mes do registro.</param>
-        /// <param name="ano">Ano do registro.</param>
-        public BancoDeHoras(TimeSpan horasExtras, string justificativa, DateTime dataRegistro)
-        {
-            HorasExtras = horasExtras;
-            Justificativa = justificativa;
-            DataRegistro = dataRegistro;
-        }
+        public int Funcionario { get; set; }
 
-        public List<BancoDeHoras> BuscarBanco(Funcionario funcionario, MyDatabaseContext myDatabase)
-        {
-            IEnumerable banco = myDatabase.BuscaBancoDeHoras(funcionario);
+        /// <summary>
+        /// TimeSpan contendo as horas extras do funcionario.
+        /// </summary>
+        public TimeSpan HorasExtras { get; set; }
 
-            List<BancoDeHoras> bancoDeHoras = new List<BancoDeHoras>();
+        /// <summary>
+        /// Id gerada pelo BD.
+        /// </summary>
+        public string Id { get; set; }
 
-            foreach (BancoDeHoras bancoHoras in banco)
-            {
-                bancoDeHoras.Add(bancoHoras);
-            }
-
-            return bancoDeHoras;
-        }
+        /// <summary>
+        /// String contendo a justificativa para adição.
+        /// </summary>
+        public string Justificativa { get; set; }
     }
 }

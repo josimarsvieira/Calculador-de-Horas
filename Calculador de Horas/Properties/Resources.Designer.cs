@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Calculador_de_Horas.Properties {
+namespace CalculadorDeHoras.Properties {
     using System;
     
     
@@ -57,6 +57,15 @@ namespace Calculador_de_Horas.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Confirmar redução.
+        /// </summary>
+        internal static string ConfirmarReducao {
+            get {
+                return ResourceManager.GetString("ConfirmarReducao", resourceCulture);
             }
         }
     }

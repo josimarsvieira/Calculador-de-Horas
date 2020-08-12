@@ -1,10 +1,12 @@
-﻿using Calculador_de_Horas.Database;
-using Calculador_de_Horas.Entities;
+﻿using CalculadorDeHoras.Database;
+using CalculadorDeHoras.Entities;
 using System;
-using System.Collections;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 
-namespace Calculador_de_Horas
+namespace CalculadorDeHoras
 {
     /// <summary>
     /// Interaction logic for BancoDeHoras.xaml
@@ -14,49 +16,39 @@ namespace Calculador_de_Horas
         /// <summary>
         /// Janela para exibição do banco de horas do funcionario ativo.
         /// </summary>
-        /// <param name="registro">Numero do registro do funcionario a ser recuperado.</param>
-        /// <param name="mes">Mes referente ao periodo a ser exibido.</param>
-        /// <param name="ano">Ano referente ao periodo a ser exibido.</param>
-        public BancoDeHorasWindow(int registro, DateTime dataBusca)
+        /// <param name="id">Id do funcionario a ser recuperado.</param>
+        /// <param name="dataBusca">Mes referente ao periodo a ser exibido.</param>
+        public BancoDeHorasWindow(string id, DateTime dataBusca)
         {
             InitializeComponent();
-            RefreshWindow(registro, dataBusca);
+            RefreshWindow(id, dataBusca).ConfigureAwait(true);
         }
 
         /// <summary>
         /// Metodo para atualização dos campos da janela.
         /// </summary>
-        /// <param name="registro">Numero do registro do funcionario a ser recuperado.</param>
-        /// <param name="mes">Mes referente ao periodo a ser exibido.</param>
-        /// <param name="ano">Ano referente ao periodo a ser exibido.</param>
-        public void RefreshWindow(int registro, DateTime dataBusca)
+        /// <param name="id">Id do funcionario a ser recuperado.</param>
+        /// <param name="dataBusca">Mes referente ao periodo a ser exibido.</param>
+        public async Task RefreshWindow(string id, DateTime dataBusca)
         {
-            using (MyDatabaseContext dbContext = new MyDatabaseContext())
-            {
-                Funcionario funcionario;
+            Funcionario funcionario;
 
-                try
-                {
-                    funcionario = dbContext.BuscarFuncionario(registro);
-                    IEnumerable bancoDeHoras = dbContext.BuscaBancoDeHorasFiltrado(funcionario, dataBusca);
-                    foreach (BancoDeHoras h in bancoDeHoras)
-                    {
-                        listBoxRegistros.Items.Add(
-                            $"{h.DataRegistro.ToShortDateString()} \t" +
-                            $"{h.HorasExtras.ToString()}\t\t" +
-                            $"{h.Justificativa}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    new Exception(ex.Message);
-                }
+            try
+            {
+                funcionario = await ClientApi.GetEmployeeAsync(id).ConfigureAwait(true);
+                List<BancoDeHoras> bancoDeHoras = await ClientApi.GetBankHoursFilteredAsync(funcionario, dataBusca).ConfigureAwait(true);
+
+                dgBanco.ItemsSource = bancoDeHoras;
+            }
+            catch (HttpRequestException e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            this.Close();
         }
     }
 }

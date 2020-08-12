@@ -1,10 +1,11 @@
-﻿using Calculador_de_Horas.Database;
-using Calculador_de_Horas.Entities;
+﻿using CalculadorDeHoras.Database;
+using CalculadorDeHoras.Entities;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
+using System.Net.Http;
 using System.Windows;
 
-namespace Calculador_de_Horas
+namespace CalculadorDeHoras
 {
     /// <summary>
     /// Interaction logic for GestaoDeFuncionarioWindow.xaml
@@ -14,31 +15,95 @@ namespace Calculador_de_Horas
         /// <summary>
         /// Janela para adição e edição de funcionarios
         /// </summary>
-        public GestaoDeFuncionarioWindow(string registro)
+        public GestaoDeFuncionarioWindow(Funcionario funcionario)
         {
             InitializeComponent();
-            txtRegistro.Text = registro;
-            PreencheComboBox();
 
-            if (registro != "")
+            if (funcionario != null)
             {
+                txtRegistro.Text = funcionario.Registro.ToString(CultureInfo.InvariantCulture);
                 txtRegistro.IsEnabled = false;
-                PreencherCampos(BuscaFuncionario());
+                PreencherCampos(funcionario);
             }
         }
 
-        private Funcionario BuscaFuncionario()
+        /// <summary>
+        /// Evento click do botão salvar funcionario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void BtnSalvar_Click(object sender, RoutedEventArgs e)
         {
-            using (MyDatabaseContext dbContext = new MyDatabaseContext())
-            {
-                Funcionario busca = dbContext.BuscarFuncionario(int.Parse(txtRegistro.Text));
+            Funcionario funcionario;
 
-                if (busca != null)
+            Funcionario busca = await ClientApi.GetEmployeeAsync(int.Parse(txtRegistro.Text, CultureInfo.InvariantCulture)).ConfigureAwait(true);
+
+            try
+            {
+                funcionario = new Funcionario(int.Parse(txtRegistro.Text, CultureInfo.InvariantCulture), txtNome.Text, txtFuncao.Text,
+                    new TimeSpan(timePickerEntrada.SelectedTime.Value.Hour, timePickerEntrada.SelectedTime.Value.Minute, 0),
+                    new TimeSpan(timePickerSaida.SelectedTime.Value.Hour, timePickerSaida.SelectedTime.Value.Minute, 0),
+                    new TimeSpan(timePickerSaidaAlmoco.SelectedTime.Value.Hour, timePickerSaidaAlmoco.SelectedTime.Value.Minute, 0),
+                    new TimeSpan(timePickerRetornoAlmoco.SelectedTime.Value.Hour, timePickerRetornoAlmoco.SelectedTime.Value.Minute, 0),
+                    checkAtivo.IsChecked.Value);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show("Favor conferir os dados informados " + ex.Message);
+                return;
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Existem campos em branco");
+                return;
+            }
+
+            if (busca != null)
+            {
+                switch (MessageBox.Show("Cadastro já existente!\nDeseja Atualizar com esses dados?", "Confirmar alteração", MessageBoxButton.YesNoCancel, MessageBoxImage.Question))
                 {
-                    return busca;
+                    case MessageBoxResult.Yes:
+                        try
+                        {
+                            busca.HoraInicio = funcionario.HoraInicio;
+                            busca.HoraSaidaAlmoco = funcionario.HoraSaidaAlmoco;
+                            busca.HoraRetornoAlmoco = funcionario.HoraRetornoAlmoco;
+                            busca.HoraTermino = funcionario.HoraTermino;
+                            busca.Ativo = funcionario.Ativo;
+
+                            await ClientApi.UpdateEmployeeAsync(busca).ConfigureAwait(true);
+                            MessageBox.Show("Cadastro efetuado com sucesso.");
+                            Close();
+                        }
+                        catch (HttpRequestException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                            return;
+                        }
+                        break;
+
+                    case MessageBoxResult.No:
+                        PreencherCampos(busca);
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        return;
+                }
+            }
+            else
+            {
+                try
+                {
+                    await ClientApi.CreateEmployeeAsync(funcionario).ConfigureAwait(true);
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
                 }
 
-                return null;
+                MessageBox.Show("Cadastro efetuado com sucesso.");
+                Close();
             }
         }
 
@@ -52,105 +117,18 @@ namespace Calculador_de_Horas
             {
                 txtNome.Text = busca.Nome;
                 txtFuncao.Text = busca.Funcao;
-                cbHoraIncio.SelectedIndex = busca.HoraIncio.Hours;
-                cbMinutosInicio.SelectedIndex = busca.HoraIncio.Minutes;
-                cbHoraTermino.SelectedIndex = busca.HoraTermino.Hours;
-                cbMinutosTermino.SelectedIndex = busca.HoraTermino.Minutes;
-                cbHoraAlmocoSaida.SelectedIndex = busca.HoraAlmocoSaida.Hours;
-                cbMinutosAlmocoSaida.SelectedIndex = busca.HoraAlmocoSaida.Minutes;
-                cbHoraAlmocoRetorno.SelectedIndex = busca.HoraAlmocoRetorno.Hours;
-                cbMinutosAlmocoRetorno.SelectedIndex = busca.HoraAlmocoRetorno.Minutes;
+                timePickerEntrada.SelectedTime = new DateTime().Add(busca.HoraInicio);
+                timePickerSaidaAlmoco.SelectedTime = new DateTime().Add(busca.HoraSaidaAlmoco);
+                timePickerRetornoAlmoco.SelectedTime = new DateTime().Add(busca.HoraRetornoAlmoco);
+                timePickerSaida.SelectedTime = new DateTime().Add(busca.HoraTermino);
+                checkAtivo.IsChecked = busca.Ativo;
                 btnSalvar.Content = "Atualizar";
             }
         }
 
-        /// <summary>
-        /// Evento click do botão salvar funcionario
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BtnSalvar_Click(object sender, RoutedEventArgs e)
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            Funcionario funcionario;
-            try
-            {
-                funcionario = new Funcionario(int.Parse(txtRegistro.Text), txtNome.Text, txtFuncao.Text,
-                    new TimeSpan(int.Parse(cbHoraIncio.SelectionBoxItem.ToString()), int.Parse(cbMinutosInicio.SelectionBoxItem.ToString()), 0),
-                    new TimeSpan(int.Parse(cbHoraTermino.SelectionBoxItem.ToString()), int.Parse(cbMinutosTermino.SelectionBoxItem.ToString()), 0),
-                    new TimeSpan(int.Parse(cbHoraAlmocoSaida.SelectionBoxItem.ToString()), int.Parse(cbMinutosAlmocoSaida.SelectionBoxItem.ToString()), 0),
-                    new TimeSpan(int.Parse(cbHoraAlmocoRetorno.SelectionBoxItem.ToString()), int.Parse(cbMinutosAlmocoRetorno.SelectionBoxItem.ToString()), 0));
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Favor conferir os dados informados");
-                return;
-            }
-
-            using (MyDatabaseContext dbContext = new MyDatabaseContext())
-            {
-                Funcionario busca = dbContext.BuscarFuncionario(int.Parse(txtRegistro.Text));
-
-                if (busca != null)
-                {
-                    switch (MessageBox.Show("Cadastro já existente!\nDeseja Atualizar com esses dados?", "Confirmar alteração", MessageBoxButton.YesNoCancel, MessageBoxImage.Question))
-                    {
-                        case MessageBoxResult.Yes:
-                            try
-                            {
-                                dbContext.AtualizarFuncionario(funcionario, busca);
-                                MessageBox.Show("Cadastro efetuado com sucesso.");
-                                TranferenciaDados.Registro = int.Parse(txtRegistro.Text);
-                                Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                                return;
-                            }
-                            break;
-
-                        case MessageBoxResult.No:
-                            PreencherCampos(busca);
-                            break;
-
-                        case MessageBoxResult.Cancel:
-                            return;
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        dbContext.SalvarFuncionario(funcionario);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Erro ao gravar os dados, contate o suporte\nPara uso do TI. Menssagem: " + ex.Message);
-                    }
-                    MessageBox.Show("Cadastro efetuado com sucesso.");
-                    TranferenciaDados.Registro = int.Parse(txtRegistro.Text);
-                    Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Popula os comboBox da interface.
-        /// </summary>
-        private void PreencheComboBox()
-        {
-            List<string> Horas = new List<string> { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" };
-            List<string> Minutos = new List<string> { "00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29",
-                "30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"};
-
-            cbHoraIncio.ItemsSource = Horas;
-            cbMinutosInicio.ItemsSource = Minutos;
-            cbHoraTermino.ItemsSource = Horas;
-            cbMinutosTermino.ItemsSource = Minutos;
-            cbHoraAlmocoSaida.ItemsSource = Horas;
-            cbMinutosAlmocoSaida.ItemsSource = Minutos;
-            cbHoraAlmocoRetorno.ItemsSource = Horas;
-            cbMinutosAlmocoRetorno.ItemsSource = Minutos;
+            this.Close();
         }
     }
 }

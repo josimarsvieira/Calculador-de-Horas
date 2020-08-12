@@ -1,9 +1,6 @@
-﻿using Calculador_de_Horas.Database;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
-namespace Calculador_de_Horas.Entities
+namespace CalculadorDeHoras.Entities
 {
     /// <summary>
     /// Classe para registro de horas do funcionario.
@@ -11,19 +8,40 @@ namespace Calculador_de_Horas.Entities
     public class HorasFuncionario
     {
         /// <summary>
-        /// Id gerado pelo BD.
+        /// Construtor padrão.
         /// </summary>
-        public int Id { get; set; }
+        public HorasFuncionario()
+        {
+        }
+
+        /// <summary>
+        /// Contrutor para objeto horas do funcionario.
+        /// </summary>
+        /// <param name="entrada">Hora de entrada.</param>
+        /// <param name="saida">Hora de saída.</param>
+        /// <param name="horaSaidaAlmoco">Hora de saida para almoço.</param>
+        /// <param name="horaRetornoAlmoco">Hora de retorno do almoço.</param>
+        /// <param name="funcionario">Numero do registro do funcionário.</param>
+        /// <param name="dataRegistro">Data do registro.</param>
+        public HorasFuncionario(TimeSpan entrada, TimeSpan saida, TimeSpan horaSaidaAlmoco, TimeSpan horaRetornoAlmoco, int funcionario, DateTime dataRegistro)
+        {
+            Entrada = entrada;
+            Saida = saida;
+            HoraSaidaAlmoco = horaSaidaAlmoco;
+            HoraRetornoAlmoco = horaRetornoAlmoco;
+            Funcionario = funcionario;
+            DataRegistro = dataRegistro;
+        }
+
+        /// <summary>
+        /// Data do registro.
+        /// </summary>
+        public DateTime DataRegistro { get; set; }
 
         /// <summary>
         /// Hora de entrada no trabalho.
         /// </summary>
         public TimeSpan Entrada { get; set; }
-
-        /// <summary>
-        /// Hora de saida do trabalho.
-        /// </summary>
-        public TimeSpan Saida { get; set; }
 
         /// <summary>
         /// Horas extras feitas no dia.
@@ -33,32 +51,27 @@ namespace Calculador_de_Horas.Entities
         /// <summary>
         /// Id do funcionario vinculado ao registro.
         /// </summary>
-        public int FuncionarioId { get; set; }
+        public int Funcionario { get; set; }
 
         /// <summary>
-        /// Data do registro.
+        /// Hora de retorno do Almoço
         /// </summary>
-        public DateTime DataRegistro { get; set; }
+        public TimeSpan HoraRetornoAlmoco { get; set; }
 
         /// <summary>
-        /// Construtor padrão.
+        /// Hora de saida para o Almoço
         /// </summary>
-        public HorasFuncionario()
-        {
-        }
+        public TimeSpan HoraSaidaAlmoco { get; set; }
 
         /// <summary>
-        /// Instancia um objeto para calculo de horas extras de um dia trabalhado. O objeto calcula as horas Extras automaticamente.
+        /// Id gerado pelo BD.
         /// </summary>
-        /// <param name="entrada">Hora que o funcionario inicio o expediente</param>
-        /// <param name="saida">Hora que o funcionario terminou o expediente</param>
-        /// <param name="dataRegistro">data do registro</param>
-        public HorasFuncionario(TimeSpan entrada, TimeSpan saida, DateTime dataRegistro)
-        {
-            Entrada = entrada;
-            Saida = saida;
-            DataRegistro = dataRegistro;
-        }
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Hora de saida do trabalho.
+        /// </summary>
+        public TimeSpan Saida { get; set; }
 
         /// <summary>
         /// Metodo para calcular as horas extras.
@@ -66,22 +79,8 @@ namespace Calculador_de_Horas.Entities
         /// <param name="totalHorasParaTrabalhar">Total de horas obrigatorias para trabalho diario, conforme contrato.</param>
         public TimeSpan CalculaExtras(TimeSpan totalHorasParaTrabalhar)
         {
-            Extras = Saida.Subtract(Entrada).Subtract(totalHorasParaTrabalhar);
+            Extras = Saida.Subtract(HoraRetornoAlmoco).Add(HoraSaidaAlmoco.Subtract(Entrada)).Subtract(totalHorasParaTrabalhar);
             return Extras;
-        }
-
-        public List<HorasFuncionario> BuscarHoras(Funcionario funcionario, DateTime dataFinal, DateTime dataInicial, MyDatabaseContext myDatabase)
-        {
-            IEnumerable cartao = myDatabase.BuscaCartaoPonto(funcionario, dataFinal, dataInicial);
-
-            List<HorasFuncionario> horasFuncionario = new List<HorasFuncionario>();
-
-            foreach (HorasFuncionario horas in cartao)
-            {
-                horasFuncionario.Add(horas);
-            }
-
-            return horasFuncionario;
         }
     }
 }

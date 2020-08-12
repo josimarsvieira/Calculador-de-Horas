@@ -1,0 +1,657 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Calculador de Horas</name>
+    </assembly>
+    <members>
+        <member name="T:CalculadorDeHoras.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.App.OnStartup(System.Windows.StartupEventArgs)">
+            <summary>
+            Sobrescrita do metodo OnStartup configurando a cultura local
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.BancoDeHorasWindow">
+            <summary>
+            Interaction logic for BancoDeHoras.xaml
+            </summary>
+            <summary>
+            BancoDeHorasWindow
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.BancoDeHorasWindow.#ctor(System.String,System.DateTime)">
+            <summary>
+            Janela para exibição do banco de horas do funcionario ativo.
+            </summary>
+            <param name="id">Id do funcionario a ser recuperado.</param>
+            <param name="dataBusca">Mes referente ao periodo a ser exibido.</param>
+        </member>
+        <member name="M:CalculadorDeHoras.BancoDeHorasWindow.RefreshWindow(System.String,System.DateTime)">
+            <summary>
+            Metodo para atualização dos campos da janela.
+            </summary>
+            <param name="id">Id do funcionario a ser recuperado.</param>
+            <param name="dataBusca">Mes referente ao periodo a ser exibido.</param>
+        </member>
+        <member name="M:CalculadorDeHoras.BancoDeHorasWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.ConfirmacaoWindow">
+            <summary>
+            Lógica interna para ConfimacaoWindow.xaml
+            </summary>
+            <summary>
+            ConfirmacaoWindow
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.ConfirmacaoWindow.#ctor(CalculadorDeHoras.Entities.HorasFuncionario,CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Janela de confirmação de horas adicionadas
+            </summary>
+            <param name="horasFuncionario">Objeto hora funcionário para adição</param>
+            <param name="funcionario">Objeto hora funcionário ao qual pertence as horas</param>
+        </member>
+        <member name="M:CalculadorDeHoras.ConfirmacaoWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.Database.ClientApi">
+            <summary>
+            Classe de acesso e alterações no banco de dados
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.CreateBankHoursAsync(CalculadorDeHoras.Entities.BancoDeHoras)">
+            <summary>
+            Adicina horas no banco de horas
+            </summary>
+            <param name="bankHoursIn">Objeto banco de horas a ser adicionado</param>
+            <returns>Retorna uma uri contendo o endereço da api do novo registro</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.CreateCompanyAsync(CalculadorDeHoras.Entities.Empresa)">
+            <summary>
+            Adiciona uma nova empresa
+            </summary>
+            <param name="companyIn">Objeto empresa a ser adicionado</param>
+            <returns>Retorna uma uri contendo o endereço da api do novo registro</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.CreateEmployeeAsync(CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Adiciona um novo funcionário
+            </summary>
+            <param name="employeeIn">Objeto funcionário a ser adicionado</param>
+            <returns>Retorna uma uri contendo o endereço da api do novo registro</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.CreateEmployeeHoursAsync(CalculadorDeHoras.Entities.HorasFuncionario)">
+            <summary>
+            Adiciona um registro de horas a um funcionário
+            </summary>
+            <param name="employeeHoursIn">Objeto horas funcionário a ser adicionado</param>
+            <returns>Retorna uma tarefa</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.DeleteEmployeeHoursAsync(CalculadorDeHoras.Entities.HorasFuncionario)">
+            <summary>
+            Deleta um registro de horas de um funcionário
+            </summary>
+            <param name="employeeHoursToDelete">Objeto horas funcionario a ser deletado</param>
+            <returns>Retorna o codigo http com o status da transação</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetBankHoursAsync(CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Obtem uma lista contendo todos os registros do banco de horas de um funcionário
+            </summary>
+            <param name="employee">Objeto funcionario ao qual pertence o banco de horas</param>
+            <returns>Retorna uma lista contendo de objetos banco de horas</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetBankHoursFilteredAsync(CalculadorDeHoras.Entities.Funcionario,System.DateTime)">
+            <summary>
+            Obtem uma lista contendo os registros de um mês do banco de horas de um funcionário
+            </summary>
+            <param name="employee">Objeto funcionario ao qual pertence o banco de horas</param>
+            <param name="dateSearch">Mês para busca</param>
+            <returns>Retorna uma lista de objetos banco de horas</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetCompanyAsync">
+            <summary>
+            Obtem uma empresa
+            </summary>
+            <returns>Retorna um objeto empresa</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetEmployeeAsync(System.String)">
+            <summary>
+            Obtem um funcionário por id
+            </summary>
+            <param name="id">Id do funcionario</param>
+            <returns>Retorna um objeto funcionário</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetEmployeeAsync(System.Int32)">
+            <summary>
+            Obtem um funcionário por registro
+            </summary>
+            <param name="empId">Numero do registro do funcionário</param>
+            <returns>Retorna um objeto funcionário</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetEmployeeHoursAsync(CalculadorDeHoras.Entities.Funcionario,System.DateTime,System.DateTime)">
+            <summary>
+            Obtem os registro de horas em um periodo de um funcionário.
+            </summary>
+            <param name="employee">Objeto funcionário ao qual pertence os registros</param>
+            <param name="dateEnd">Data final do periodo</param>
+            <param name="dateStart">Data inicial do periodo</param>
+            <returns>Retorna uma lista contendo objetos horas funcionário</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetEmployeeHoursAsync(CalculadorDeHoras.Entities.Funcionario,System.DateTime)">
+            <summary>
+            Obtem as horas de um mês de um fucionário.
+            </summary>
+            <param name="employee">Objeto funcionário ao qual pertence os registros</param>
+            <param name="monthSearch">Mês para busca</param>
+            <returns>Retorna uma lista contendo objetos horas funcionário</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetEmployeeHoursAsync(System.String)">
+            <summary>
+            Otem um resgitro de horas.
+            </summary>
+            <param name="id">Id do registro de horas</param>
+            <returns>Retorna um objeto horas funcionário</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetEmployeesAsync">
+            <summary>
+            Obtem todos os funcionários cadastrados.
+            </summary>
+            <returns>Retorna uma lista contendo objetos funcionário</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.GetEmployeesAsync(System.Boolean)">
+            <summary>
+            Obtem todos os funcionários ativos cadastrados.
+            </summary>
+            <param name="ativo">True para ativos e False para inativos</param>
+            <returns>Retorna uma lista contendo objetos funcionário</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.UpdateCompanyAsync(CalculadorDeHoras.Entities.Empresa)">
+            <summary>
+            Atualiza o registro de uma empresa.
+            </summary>
+            <param name="companyIn">Objeto empresa alterado</param>
+            <returns>Retorna um objeto empresa com as alterações feitas</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.UpdateEmployeeAsync(CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Atualiza o registro de um funcionário.
+            </summary>
+            <param name="employeeIn">Objeto funcionário alterado</param>
+            <returns>Retorna um objeto funcionário com as alterações feitas</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.UpdateEmployeeHoursAsync(CalculadorDeHoras.Entities.HorasFuncionario)">
+            <summary>
+            Atualiza um registro de horas de um funcionário.
+            </summary>
+            <param name="horasFuncionarioIn">Objeto horas funcionário alterado</param>
+            <returns>Retorna um objeto funconário com as alterações feitas</returns>
+        </member>
+        <member name="M:CalculadorDeHoras.Database.ClientApi.RunApi">
+            <summary>
+            Conecta a aplicação a API
+            </summary>
+            <returns>Retorna uma tarefa Task</returns>
+        </member>
+        <member name="T:CalculadorDeHoras.EditarHorasWindow">
+            <summary>
+            Interaction logic for EditarHorasWindow.xaml
+            </summary>
+            <summary>
+            EditarHorasWindow
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.EditarHorasWindow.#ctor(CalculadorDeHoras.Entities.HorasFuncionario,CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Janela de edição do último registro de hora adicionado
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.EditarHorasWindow.Button_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Metodo para popular os itens do comboBox
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.EditarHorasWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.Entities.BancoDeHoras">
+            <summary>
+            Classe responsavel pelos registros do Banco de Hora.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.BancoDeHoras.#ctor">
+            <summary>
+            Construtor padrão
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.BancoDeHoras.#ctor(System.TimeSpan,System.String,System.DateTime,System.Int32)">
+            <summary>
+            Banco de horas do funcionario.
+            </summary>
+            <param name="horasExtras">TimeSpan contendo a quantidade de horas extras do funcionário</param>
+            <param name="justificativa">String de justificativa da inclusão</param>
+            <param name="dataRegistro">Data do registro</param>
+            <param name="funcionarioId">Número do registro do funcionário</param>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.BancoDeHoras.DataRegistro">
+            <summary>
+            Dia do registro.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.BancoDeHoras.Funcionario">
+            <summary>
+            Registro do funcionario
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.BancoDeHoras.HorasExtras">
+            <summary>
+            TimeSpan contendo as horas extras do funcionario.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.BancoDeHoras.Id">
+            <summary>
+            Id gerada pelo BD.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.BancoDeHoras.Justificativa">
+            <summary>
+            String contendo a justificativa para adição.
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.Entities.Empresa">
+            <summary>
+            Representa uma empresa.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.Empresa.#ctor(System.String,System.String,System.Int32)">
+            <summary>
+            Metodo construtor da classe
+            </summary>
+            <param name="razaoSocial">Razão Social.</param>
+            <param name="cNPJ">CNPJ.</param>
+            <param name="diaFechamento">Dia do fechamento da folha de pagamento.</param>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Empresa.CNPJ">
+            <summary>
+            CNPJ.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Empresa.DiaFechamento">
+            <summary>
+            Dia de fechamento da folha de pagamento.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Empresa.Id">
+            <summary>
+            Identificador.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Empresa.RazaoSocial">
+            <summary>
+            Razão Social.
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.Entities.Funcionario">
+            <summary>
+            Classe para registro de funcionario.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.Funcionario.#ctor">
+            <summary>
+            Construtor padrão.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.Funcionario.#ctor(System.Int32,System.String,System.String,System.TimeSpan,System.TimeSpan,System.TimeSpan,System.TimeSpan,System.Boolean)">
+            <summary>
+            Construtor do objeto Funcionário.
+            </summary>
+            <param name="registro">Número do registro do funcionário.</param>
+            <param name="nome">Nome.</param>
+            <param name="funcao">Função.</param>
+            <param name="horaIncio">Hora de início da jornada.</param>
+            <param name="horaTermino">Hora de término da jornada.</param>
+            <param name="horaSaidaAlmoco">Hora de saída para almoço.</param>
+            <param name="horaRetornoAlmoco">Hora de retorno do almoço.</param>
+            <param name="ativo"></param>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.Ativo">
+            <summary>
+            Representa se é um fucionario ativo.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.Funcao">
+            <summary>
+            Função do funcionario.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.HoraInicio">
+            <summary>
+            Hora de inicio do expediente.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.HoraRetornoAlmoco">
+            <summary>
+            Hora de retorno do almoço.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.HoraSaidaAlmoco">
+            <summary>
+            Hora de saida para o almoço.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.HoraTermino">
+            <summary>
+            Hora de termino do expediente.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.Nome">
+            <summary>
+            Nome do Funcionario.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.Funcionario.Registro">
+            <summary>
+            Numero de registro.
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.Entities.HorasFuncionario">
+            <summary>
+            Classe para registro de horas do funcionario.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.HorasFuncionario.#ctor">
+            <summary>
+            Construtor padrão.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.HorasFuncionario.#ctor(System.TimeSpan,System.TimeSpan,System.TimeSpan,System.TimeSpan,System.Int32,System.DateTime)">
+            <summary>
+            Contrutor para objeto horas do funcionario.
+            </summary>
+            <param name="entrada">Hora de entrada.</param>
+            <param name="saida">Hora de saída.</param>
+            <param name="horaSaidaAlmoco">Hora de saida para almoço.</param>
+            <param name="horaRetornoAlmoco">Hora de retorno do almoço.</param>
+            <param name="funcionario">Numero do registro do funcionário.</param>
+            <param name="dataRegistro">Data do registro.</param>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.DataRegistro">
+            <summary>
+            Data do registro.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.Entrada">
+            <summary>
+            Hora de entrada no trabalho.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.Extras">
+            <summary>
+            Horas extras feitas no dia.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.Funcionario">
+            <summary>
+            Id do funcionario vinculado ao registro.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.HoraRetornoAlmoco">
+            <summary>
+            Hora de retorno do Almoço
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.HoraSaidaAlmoco">
+            <summary>
+            Hora de saida para o Almoço
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.Id">
+            <summary>
+            Id gerado pelo BD.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Entities.HorasFuncionario.Saida">
+            <summary>
+            Hora de saida do trabalho.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.Entities.HorasFuncionario.CalculaExtras(System.TimeSpan)">
+            <summary>
+            Metodo para calcular as horas extras.
+            </summary>
+            <param name="totalHorasParaTrabalhar">Total de horas obrigatorias para trabalho diario, conforme contrato.</param>
+        </member>
+        <member name="T:CalculadorDeHoras.GestaoDeFuncionarioWindow">
+            <summary>
+            Interaction logic for GestaoDeFuncionarioWindow.xaml
+            </summary>
+            <summary>
+            GestaoDeFuncionarioWindow
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.GestaoDeFuncionarioWindow.#ctor(CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Janela para adição e edição de funcionarios
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.GestaoDeFuncionarioWindow.BtnSalvar_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão salvar funcionario
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.GestaoDeFuncionarioWindow.PreencherCampos(CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Metodo para preenchimento dos campos com os dados do funcionario recuperado do BD.
+            </summary>
+            <param name="busca">Objeto Funcionario recuperado do BD.</param>
+        </member>
+        <member name="M:CalculadorDeHoras.GestaoDeFuncionarioWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.ListarFuncionariosWindow">
+            <summary>
+            Lógica interna para ListarFuncionariosWindow.xaml
+            </summary>
+            <summary>
+            ListarFuncionariosWindow
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.ListarFuncionariosWindow.#ctor">
+            <summary>
+            Construtor da janela de exibição dos funcionários.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.ListarFuncionariosWindow.FuncionarioAtual">
+            <summary>
+            Objeto contendo o funcionário selecionado.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.ListarFuncionariosWindow.PreencheListBox">
+            <summary>
+            Preenche a lista de funcionarios
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.ListarFuncionariosWindow.BtnEditar_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão editar funcionario
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.ListarFuncionariosWindow.BtnNovo_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão novo funcionario
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.ListarFuncionariosWindow.BtnSelecionar_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão selecionar funcionario
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.ListarFuncionariosWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.MainWindow">
+            <summary>
+            Interface Principal
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.#ctor">
+            <summary>
+            Contrutor
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.BtnAdicionar_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão adicionar, esse é o principal botão da interface
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.BtnAtualizar_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão atualizar campos
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.BtnBancoHoras_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão banco de horas
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.BtnDetalhar_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão detalhar
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.BuscarFuncionario(System.Boolean)">
+            <summary>
+            Recupera um funcionario do BD.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.RefreshList(CalculadorDeHoras.Entities.Funcionario)">
+            <summary>
+            Atualiza os campos da janela.
+            </summary>
+            <param name="func">Objeto do tipo Funcionario recuperado do BD.</param>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.VerificaCadastroEmpresa">
+            <summary>
+            Verifica se existe empresa cadastrada
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.NovaEmpresaWindow">
+            <summary>
+            Lógica interna para NovaEmpresaWindow.xaml..
+            </summary>
+            <summary>
+            NovaEmpresaWindow
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.NovaEmpresaWindow.#ctor">
+            <summary>
+            Construtor da janela para inclusão de empresa
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.NovaEmpresaWindow.Empresa">
+            <summary>
+            Objeto empresa ativo na aplicação.
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.NovaEmpresaWindow.Button_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Evento click do botão salvar
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.NovaEmpresaWindow.PreencherCampos(CalculadorDeHoras.Entities.Empresa)">
+            <summary>
+            Preenche os campos da interface
+            </summary>
+            <param name="busca"></param>
+        </member>
+        <member name="M:CalculadorDeHoras.NovaEmpresaWindow.PreencherComboDia">
+            <summary>
+            Popula o comboBox da interface
+            </summary>
+        </member>
+        <member name="M:CalculadorDeHoras.NovaEmpresaWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:CalculadorDeHoras.Properties.Resources">
+            <summary>
+              Uma classe de recurso de tipo de alta segurança, para pesquisar cadeias de caracteres localizadas etc.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Properties.Resources.ResourceManager">
+            <summary>
+              Retorna a instância de ResourceManager armazenada em cache usada por essa classe.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Properties.Resources.Culture">
+            <summary>
+              Substitui a propriedade CurrentUICulture do thread atual para todas as
+              pesquisas de recursos que usam essa classe de recurso de tipo de alta segurança.
+            </summary>
+        </member>
+        <member name="P:CalculadorDeHoras.Properties.Resources.ConfirmarReducao">
+            <summary>
+              Consulta uma cadeia de caracteres localizada semelhante a Confirmar redução.
+            </summary>
+        </member>
+    </members>
+</doc>
